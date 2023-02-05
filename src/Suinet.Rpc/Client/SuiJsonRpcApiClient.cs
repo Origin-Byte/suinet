@@ -146,6 +146,11 @@ namespace Suinet.Rpc
         {
             return await SendRpcRequestAsync<SuiPage_for_EventEnvelope_and_EventID>("sui_getEvents", ArgumentBuilder.BuildArguments(query, cursor, limit, descendingOrder));
         }
+
+        public async Task<RpcResult<SuiPage_for_DynamicFieldInfo_and_ObjectID>> GetDynamicFieldsAsync(string objectId)
+        {
+            return await SendRpcRequestAsync<SuiPage_for_DynamicFieldInfo_and_ObjectID>("sui_getDynamicFields", ArgumentBuilder.BuildArguments(objectId));
+        }
     }
 
     public partial class SuiJsonRpcApiClient : IJsonRpcApiClient

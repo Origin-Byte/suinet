@@ -364,5 +364,13 @@ namespace Suinet.Rpc.Tests
             txCert.Should().NotBeNull();
             txCert!.Certificate.Should().NotBeNull();
         }
+
+        [Fact]
+        public async Task TestGetDynamicFields()
+        {
+            var id = "0x08cb7a94f3c8244868fe582ec3fdfad1c03a9d6a";
+            var result = await _jsonRpcApiClient.GetDynamicFieldsAsync(id);
+            result.IsSuccess.Should().BeTrue();
+        }
     }
 }

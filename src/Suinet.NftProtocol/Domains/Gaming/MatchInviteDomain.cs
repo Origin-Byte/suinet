@@ -9,7 +9,7 @@ namespace Suinet.NftProtocol.Domains.Gaming
         {
             get
             {
-                return GetTypedField<string>("matchId");
+                return null;
             }
         }
     }
