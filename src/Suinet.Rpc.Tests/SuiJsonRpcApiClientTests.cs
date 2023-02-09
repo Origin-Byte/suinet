@@ -26,7 +26,7 @@ namespace Suinet.Rpc.Tests
 
         private const string TEST_MNEMONIC = "that august urban math slender industry area mountain worry day ski hold";
 
-        private const string TEST_MNEMONIC2 = "agent dinner camp good evidence tower flag sport know inch bomb swift";
+        private const string TEST_MNEMONIC2 = "bus indicate leave science minor clip embrace faculty wink industry addict track soup burger scissors another enrich muscle loop fever vacuum buyer paddle roof";
 
         public SuiJsonRpcApiClientTests(ITestOutputHelper output)
         {
@@ -219,8 +219,8 @@ namespace Suinet.Rpc.Tests
             txResponse.IsSuccess.Should().BeTrue();
             txResponse.ErrorMessage.Should().BeNullOrEmpty();
 
-            var effectsCert = txResponse.Result.EffectsCert;
-            effectsCert.Should().NotBeNull();
+            var effects = txResponse.Result.Effects;
+            effects.Should().NotBeNull();
         }
         [Fact]
         public async Task TestExecuteTransactionAsync_WaitForLocalExecution()
@@ -245,9 +245,9 @@ namespace Suinet.Rpc.Tests
             txResponse.IsSuccess.Should().BeTrue();
             txResponse.ErrorMessage.Should().BeNullOrEmpty();
 
-            var effectsCert = txResponse.Result.EffectsCert;
-            effectsCert.Should().NotBeNull();
-            effectsCert.ConfirmedLocalExecution.Should().BeTrue();
+            var effects = txResponse.Result.Effects;
+            effects.Should().NotBeNull();
+            txResponse.Result.ConfirmedLocalExecution.Should().BeTrue();
         }
 
         [Fact]
@@ -273,12 +273,12 @@ namespace Suinet.Rpc.Tests
             txResponse.ErrorMessage.Should().BeNullOrEmpty();
             txResponse.Result.ExecuteTransactionRequestType.Should().Be(SuiExecuteTransactionRequestType.WaitForEffectsCert);
 
-            var txCert = txResponse.Result.EffectsCert;
-            txCert.Should().NotBeNull();
-            txCert!.Certificate.Should().NotBeNull();
-            txCert!.Effects.Should().NotBeNull();
-            txCert!.Effects.Effects.Status.Status.Should().Be(SuiExecutionStatus.Success);
-            txCert!.Effects.Effects.Created.Should().HaveCount(1);
+            var effects = txResponse.Result.Effects;
+            effects.Should().NotBeNull();
+            txResponse.Result!.Certificate.Should().NotBeNull();
+            effects.Should().NotBeNull();
+            effects.Effects.Status.Status.Should().Be(SuiExecutionStatus.Success);
+            effects.Effects.Created.Should().HaveCount(1);
         }
 
         [Fact]
@@ -360,9 +360,9 @@ namespace Suinet.Rpc.Tests
             txResponse.ErrorMessage.Should().BeNullOrEmpty();
             txResponse.Result.ExecuteTransactionRequestType.Should().Be(SuiExecuteTransactionRequestType.WaitForEffectsCert);
 
-            var txCert = txResponse.Result.EffectsCert;
-            txCert.Should().NotBeNull();
-            txCert!.Certificate.Should().NotBeNull();
+            var effects = txResponse.Result.Effects;
+            effects.Should().NotBeNull();
+            txResponse.Result!.Certificate.Should().NotBeNull();
         }
 
         [Fact]
