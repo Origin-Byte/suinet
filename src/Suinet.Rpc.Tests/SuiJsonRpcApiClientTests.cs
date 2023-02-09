@@ -282,6 +282,37 @@ namespace Suinet.Rpc.Tests
         }
 
         [Fact]
+        public async Task TestCreateSharedCounter()
+        {
+            var signer = _signerKeyPair2.PublicKeyAsSuiAddress;
+            var packageObjectId = "0xa1382c7886e88709a9dc4db2b35ac56f629806af";
+            var module = "counter";
+            var function = "create";
+            var typeArgs = System.Array.Empty<string>();
+            var args = System.Array.Empty<object>();
+            var gasObjectId = (await SuiHelper.GetCoinObjectIdsAboveBalancesOwnedByAddressAsync(_jsonRpcApiClient, signer, 1, 2000)).Single();
+
+            var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, gasObjectId, 2000);
+
+            var txBytes = moveCallResult.Result.TxBytes;
+            var signature = _signerKeyPair2.Sign(moveCallResult.Result.TxBytes);
+
+            var txResponse = await _jsonRpcApiClient.ExecuteTransactionAsync(txBytes, SuiSignatureScheme.ED25519, signature, _signerKeyPair2.PublicKeyBase64, SuiExecuteTransactionRequestType.WaitForEffectsCert);
+
+            txResponse.Should().NotBeNull();
+            txResponse.IsSuccess.Should().BeTrue();
+            txResponse.ErrorMessage.Should().BeNullOrEmpty();
+            txResponse.Result.ExecuteTransactionRequestType.Should().Be(SuiExecuteTransactionRequestType.WaitForEffectsCert);
+
+            var effects = txResponse.Result.Effects;
+            effects.Should().NotBeNull();
+            txResponse.Result!.Certificate.Should().NotBeNull();
+            effects.Should().NotBeNull();
+            effects.Effects.Status.Status.Should().Be(SuiExecutionStatus.Success);
+            effects.Effects.Created.Should().HaveCount(1);
+        }
+
+        [Fact]
         public async Task TestHelperGetBalanceAsync()
         {
             var balance = await SuiHelper.GetBalanceAsync(_jsonRpcApiClient, _signerKeyPair.PublicKeyAsSuiAddress);
