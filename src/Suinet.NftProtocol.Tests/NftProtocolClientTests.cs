@@ -24,13 +24,13 @@ namespace Suinet.NftProtocol.Tests
     /// </summary>
     public class NftProtocolClientTests
     {
-        private const string WALLET_2_ADDRESS = "0xfd265b697c11defbe61a289cdfccc080eda28a6a";
+        private const string WALLET_2_ADDRESS = "0xa106c6d490ff692411bc6fd2ca59b5804adcac04";
 
-        private const string PACKAGE_OBJECT_ID = "0x7b7d9dc46667e8ee5018fc2276986fcc1f2ec690";
+        private const string PACKAGE_OBJECT_ID = "0xff31b228d927d2df4f4647652ca2103bfcf4130a";
         //private const string COLLECTION_ID = "0xf4dac05cbb2c5d3cf75784181b59c88fdb8e675c";
         private const string LAUNCHPAD_ID = "0x929122148de74d8fa3df7b910c13d9d2bd3eba35";
         private const string MINT_AUTHORITY_ID = "0x0c5c202741bdea47823efe1fb4fd580878676e3b";
-        private const string MINT_CAP_ID = "0x652a49e5decc2667419af560e7f36c5eb0fed93d";
+        private const string MINT_CAP_ID = "0xbf4d29d07175fcb83d5e7af19f909e9b87f45e57";
         private const string MODULE_NAME = "deadbytes";
 
         private const string TEST_MNEMONIC = "bus indicate leave science minor clip embrace faculty wink industry addict track soup burger scissors another enrich muscle loop fever vacuum buyer paddle roof";
