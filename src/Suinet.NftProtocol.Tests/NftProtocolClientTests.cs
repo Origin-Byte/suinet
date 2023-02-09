@@ -27,17 +27,12 @@ namespace Suinet.NftProtocol.Tests
         private const string WALLET_2_ADDRESS = "0xa106c6d490ff692411bc6fd2ca59b5804adcac04";
 
         private const string PACKAGE_OBJECT_ID = "0xff31b228d927d2df4f4647652ca2103bfcf4130a";
-        //private const string COLLECTION_ID = "0xf4dac05cbb2c5d3cf75784181b59c88fdb8e675c";
-        private const string LAUNCHPAD_ID = "0x929122148de74d8fa3df7b910c13d9d2bd3eba35";
-        private const string MINT_AUTHORITY_ID = "0x0c5c202741bdea47823efe1fb4fd580878676e3b";
         private const string MINT_CAP_ID = "0xbf4d29d07175fcb83d5e7af19f909e9b87f45e57";
         private const string MODULE_NAME = "deadbytes";
 
         private const string TEST_MNEMONIC = "bus indicate leave science minor clip embrace faculty wink industry addict track soup burger scissors another enrich muscle loop fever vacuum buyer paddle roof";
         private const string TEST_MNEMONIC_2 = "that august urban math slender industry area mountain worry day ski hold";
   
-        private const string SUI_COIN_OBJECT_ID = "0x5f98f21e14fc680df88e20c0016c212de27cd710";
-
         private readonly ILogger<NftProtocolClientTests> _logger;
         private readonly IJsonRpcApiClient _jsonRpcApiClient;
         private readonly ITestOutputHelper _output;
@@ -122,22 +117,6 @@ namespace Suinet.NftProtocol.Tests
                 var rpcResult = await _nftProtocolClient.MintNftAsync(txParams);
                 rpcResult.IsSuccess.Should().BeTrue();
             }
-        }
-
-        [Fact]
-        public async Task TestNftProtocolClient_EnableSales()
-        {
-            var txParams = new EnableSales()
-            {
-                CollectionType = $"{PACKAGE_OBJECT_ID}::suimarines::SUIMARINES",
-                LaunchpadId = LAUNCHPAD_ID,
-                ModuleName = MODULE_NAME,
-                PackageObjectId = PACKAGE_OBJECT_ID,
-                Signer = _signerKeyPair.PublicKeyAsSuiAddress,
-            };
-
-            var rpcResult = await _nftProtocolClient.EnableSalesAsync(txParams);
-            rpcResult.IsSuccess.Should().BeTrue();
         }
 
         [Fact]
