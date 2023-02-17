@@ -120,6 +120,75 @@ namespace Suinet.NftProtocol.Tests
         }
 
         [Fact]
+        public async Task DeadBytes_MintTournamentNfts()
+        {
+            const string BattlePassFinalCID = "QmbsUApe5Gmbq2nmZY7K6QPYfmqTkRdkaFp6fJ1ncyi5eA";
+            const string BattlePassQuarterFinalCID = "QmbcXkJq6cAY9XmGSNz9keLcSLT6cHDWaKF1exWokriBSv";
+            const string BattlePassSemiFinalCID = "Qmam3bFSp3qbzULXkKDrKkh9rpf44ZRnQHJbzeg6QwopqA";
+
+            var recipient = WALLET_2_ADDRESS;
+
+            // SEMI FINAL
+            //  for (int i = 1; i <= 4; i++)
+            {
+                var txParams = new MintNft()
+                {
+                    Description = "Welcome to the Semi-Final round of the First Official Dead Bytes Tournament!",
+                    MintCap = MINT_CAP_ID,
+                    Recipient = recipient,
+                    ModuleName = MODULE_NAME,
+                    Name = $"DEAD BYTES SEMI FINAL BATTLEPASS",
+                    PackageObjectId = PACKAGE_OBJECT_ID,
+                    Signer = _signerKeyPair.PublicKeyAsSuiAddress,
+                    Url = $"ipfs://{BattlePassSemiFinalCID}"
+                };
+
+                var rpcResult = await _nftProtocolClient.MintNftAsync(txParams);
+                rpcResult.Should().NotBeNull();
+                rpcResult.IsSuccess.Should().BeTrue();
+            }
+
+            // QUARTER FINAL
+            //for (int i = 1; i <= 2; i++)
+            {
+                var txParams = new MintNft()
+                {
+                    Description = "Welcome to the Quarter-Final round of the First Official Dead Bytes Tournament!",
+                    MintCap = MINT_CAP_ID,
+                    Recipient = recipient,
+                    ModuleName = MODULE_NAME,
+                    Name = $"DEAD BYTES QUARTER FINAL BATTLEPASS",
+                    PackageObjectId = PACKAGE_OBJECT_ID,
+                    Signer = _signerKeyPair.PublicKeyAsSuiAddress,
+                    Url = $"ipfs://{BattlePassQuarterFinalCID}"
+                };
+
+                var rpcResult = await _nftProtocolClient.MintNftAsync(txParams);
+                rpcResult.Should().NotBeNull();
+                rpcResult.IsSuccess.Should().BeTrue();
+            }
+
+            // FINAL
+            {
+                var txParams = new MintNft()
+                {
+                    Description = "Welcome to the Final round of the First Official Dead Bytes Tournament!",
+                    MintCap = MINT_CAP_ID,
+                    Recipient = recipient,
+                    ModuleName = MODULE_NAME,
+                    Name = $"DEAD BYTES FINAL BATTLEPASS",
+                    PackageObjectId = PACKAGE_OBJECT_ID,
+                    Signer = _signerKeyPair.PublicKeyAsSuiAddress,
+                    Url = $"ipfs://{BattlePassFinalCID}"
+                };
+
+                var rpcResult = await _nftProtocolClient.MintNftAsync(txParams);
+                rpcResult.Should().NotBeNull();
+                rpcResult.IsSuccess.Should().BeTrue();
+            }
+        }
+
+        [Fact]
         public async Task Mintv17Nfts()
         {
             var recipient = WALLET_2_ADDRESS;
