@@ -26,8 +26,8 @@ namespace Suinet.NftProtocol.Tests
     {
         private const string WALLET_2_ADDRESS = "0xa106c6d490ff692411bc6fd2ca59b5804adcac04";
 
-        private const string PACKAGE_OBJECT_ID = "0xff31b228d927d2df4f4647652ca2103bfcf4130a";
-        private const string MINT_CAP_ID = "0xbf4d29d07175fcb83d5e7af19f909e9b87f45e57";
+        private const string PACKAGE_OBJECT_ID = "0x3f2f2e76de27bc62d22a5a005718f0be7f07bd3a";
+        private const string MINT_CAP_ID = "0xc0160ae637f0dd6aeb4ba47e135122ae38d4d84f";
         private const string MODULE_NAME = "deadbytes";
 
         private const string TEST_MNEMONIC = "bus indicate leave science minor clip embrace faculty wink industry addict track soup burger scissors another enrich muscle loop fever vacuum buyer paddle roof";
