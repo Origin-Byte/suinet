@@ -26,8 +26,8 @@ namespace Suinet.NftProtocol.Tests
     {
         private const string WALLET_2_ADDRESS = "0xa106c6d490ff692411bc6fd2ca59b5804adcac04";
 
-        private const string PACKAGE_OBJECT_ID = "0x3f2f2e76de27bc62d22a5a005718f0be7f07bd3a";
-        private const string MINT_CAP_ID = "0xc0160ae637f0dd6aeb4ba47e135122ae38d4d84f";
+        private const string PACKAGE_OBJECT_ID = "0x1293f599264c8f776d27e851d1c9897e63223bad";
+        private const string MINT_CAP_ID = "0xa6feff4e40c90bf34abafed94d523744050df63b";
         private const string MODULE_NAME = "deadbytes";
 
         private const string TEST_MNEMONIC = "bus indicate leave science minor clip embrace faculty wink industry addict track soup burger scissors another enrich muscle loop fever vacuum buyer paddle roof";
@@ -247,7 +247,8 @@ namespace Suinet.NftProtocol.Tests
         [Fact]
         public async Task TestGetArtNftsOwnedByAddressAsync_WithAllDomains()
         {
-            var address = WALLET_2_ADDRESS;
+            var address = "0x7d18b23e9314280fb9cccd7259bf397001650ff9";
+            //var address = WALLET_2_ADDRESS;
             var rpcResult = await _nftProtocolClient.GetArtNftsOwnedByAddressAsync(address);
 
             rpcResult.IsSuccess.Should().BeTrue();

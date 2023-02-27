@@ -158,7 +158,8 @@ namespace Suinet.Rpc.Tests
         [Fact]
         public async Task TestGetCapyNftsOwnedByAddressAsync()
         {
-            var ownedObjectsResult = await _jsonRpcApiClient.GetObjectsOwnedByAddressAsync<CapyNft>(_signerKeyPair2.PublicKeyAsSuiAddress);
+            var address = "0xa106c6d490ff692411bc6fd2ca59b5804adcac04";
+            var ownedObjectsResult = await _jsonRpcApiClient.GetObjectsOwnedByAddressAsync<CapyNft>(address);
 
             ownedObjectsResult.IsSuccess.Should().BeTrue();
             
@@ -399,7 +400,7 @@ namespace Suinet.Rpc.Tests
         [Fact]
         public async Task TestGetDynamicFields()
         {
-            var id = "0x08cb7a94f3c8244868fe582ec3fdfad1c03a9d6a";
+            var id = "0xa7a27550febd72c9bc0928a013534be76ab8a1c9";
             var result = await _jsonRpcApiClient.GetDynamicFieldsAsync(id);
             result.IsSuccess.Should().BeTrue();
         }
