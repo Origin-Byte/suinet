@@ -39,7 +39,7 @@ namespace Suinet.Rpc.Tests
             var serilogLoggerFactory = new SerilogLoggerFactory(serilogOutputLogger);
             _logger = serilogLoggerFactory.CreateLogger<SuiJsonRpcApiClientTests>();
 
-            var rpcClient = new RpcClient(SuiConstants.DEVNET_ENDPOINT, null, _logger);
+            var rpcClient = new RpcClient(SuiConstants.TESTNET_FULLNODE, null, _logger);
             _jsonRpcApiClient = new SuiJsonRpcApiClient(rpcClient);
             _signerKeyPair = Mnemonics.GetKeypairFromMnemonic(TEST_MNEMONIC);
             _signerKeyPair2 = Mnemonics.GetKeypairFromMnemonic(TEST_MNEMONIC2);
@@ -48,7 +48,7 @@ namespace Suinet.Rpc.Tests
         [Fact]
         public async Task TestGetTotalTransactionNumberAsync()
         {
-            var rpcResult = await _jsonRpcApiClient.GetTotalTransactionNumberAsync();
+            var rpcResult = await _jsonRpcApiClient.GetTotalTransactionBlocksAsync();
 
             rpcResult.Should().NotBeNull();
             rpcResult.IsSuccess.Should().BeTrue();
@@ -324,23 +324,34 @@ namespace Suinet.Rpc.Tests
         public async Task TestGetAllEvents()
         {
             var query = new SuiAllEventQuery();
-            var objects = await _jsonRpcApiClient.GetEventsAsync(query, null, 10);
+            var objects = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10);
             objects.IsSuccess.Should().BeTrue();
         }
 
         [Fact]
-        public async Task TestGetMoveModulEvents()
+        public async Task TestQueryEventsBySender()
+        {
+            var query = new SuiSenderEventQuery()
+            {
+                Sender = "0x1a4f2b04e99311b0ff8228cf12735402f6618d7be0f0b320364339baf03e49df"
+            };
+            var objects = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10);
+            objects.IsSuccess.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task TestQueryMoveModuleEvents()
         {
             var query = new SuiMoveModuleEventQuery()
             {
                 MoveModule = new SuiMoveModuleEventQuery.SuiMoveModule()
                 {
-                    Module = "devnet_nft",
-                    Package = "0x0000000000000000000000000000000000000002"
+                    Module = "access_policy",
+                    Package = "0x7f37d6f86facc20063f3e19b95ac84d973ac2cfd64406c561c26921a57b578b2"
                 }
             };
 
-            var rpcResult = await _jsonRpcApiClient.GetEventsAsync(query, null, 10, true);
+            var rpcResult = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10, true);
 
             rpcResult.IsSuccess.Should().BeTrue();
         }
@@ -352,7 +363,7 @@ namespace Suinet.Rpc.Tests
             {
                 MoveEvent = "0x2::devnet_nft::MintNFTEvent"
             };
-            var objects = await _jsonRpcApiClient.GetEventsAsync(query, null, 10);
+            var objects = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10);
             objects.IsSuccess.Should().BeTrue();
         }
 
@@ -363,11 +374,11 @@ namespace Suinet.Rpc.Tests
             {
                 MoveEvent = "0x2::devnet_nft::MintNFTEvent"
             };
-            var result = await _jsonRpcApiClient.GetEventsAsync(query, null, 10);
+            var result = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10);
             result.IsSuccess.Should().BeTrue();
 
 
-            var result2 = await _jsonRpcApiClient.GetEventsAsync(query, result.Result.NextCursor, 10);
+            var result2 = await _jsonRpcApiClient.QueryEventsAsync(query, result.Result.NextCursor, 10);
             result2.IsSuccess.Should().BeTrue();
         }
 
