@@ -46,7 +46,7 @@ namespace Suinet.Rpc.Tests
         }
 
         [Fact]
-        public async Task TestGetTotalTransactionNumberAsync()
+        public async Task TestGetTotalTransactionBlocksAsync()
         {
             var rpcResult = await _jsonRpcApiClient.GetTotalTransactionBlocksAsync();
 

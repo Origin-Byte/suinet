@@ -55,7 +55,7 @@ namespace Suinet.NftProtocol.Tests
             var serilogLoggerFactory = new SerilogLoggerFactory(serilogOutputLogger);
             _logger = serilogLoggerFactory.CreateLogger<NftProtocolClientTests>();
 
-            var rpcClient = new RpcClient(SuiConstants.DEVNET_ENDPOINT, null, _logger);
+            var rpcClient = new RpcClient(SuiConstants.TESTNET_FULLNODE, null, _logger);
             _jsonRpcApiClient = new SuiJsonRpcApiClient(rpcClient);
             _signerKeyPair = Mnemonics.GetKeypairFromMnemonic(TEST_MNEMONIC);
             _signer = new Signer(_jsonRpcApiClient, _signerKeyPair);

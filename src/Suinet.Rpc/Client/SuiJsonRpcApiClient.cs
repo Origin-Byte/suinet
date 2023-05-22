@@ -1,19 +1,17 @@
 ﻿using Chaos.NaCl;
-using Org.BouncyCastle.Crypto;
 using Suinet.Rpc.Api;
 using Suinet.Rpc.Client;
 using Suinet.Rpc.Http;
 using Suinet.Rpc.JsonRpc;
 using Suinet.Rpc.Types;
+using Suinet.Rpc.Types.MoveTypes;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Suinet.Rpc
 {
-    public partial class SuiJsonRpcApiClient : IReadApi, ITransactionBuilderApi, IQuorumDriverApi, IExtendedApi
+    public partial class SuiJsonRpcApiClient : IReadApi, ITransactionBuilderApi, IQuorumDriverApi, IExtendedApi, IWriteApi, IMoveUtils, IGovernanceReadApi
     {
         private readonly IRpcClient _rpcClient;
 
@@ -147,14 +145,154 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<SuiTransactionBytes>("sui_pay", ArgumentBuilder.BuildArguments(signer, inputCoins, recipients, amounts, gas, gasBudget));
         }
 
-        public async Task<RpcResult<SuiPage_for_EventEnvelope_and_EventID>> QueryEventsAsync(ISuiEventQuery query, SuiEventId cursor, ulong limit, bool descendingOrder = false)
+        public async Task<RpcResult<SuiPage_for_Event_and_EventID>> QueryEventsAsync(ISuiEventQuery query, SuiEventId cursor, ulong limit, bool descendingOrder = false)
         {
-            return await SendRpcRequestAsync<SuiPage_for_EventEnvelope_and_EventID>("suix_queryEvents", ArgumentBuilder.BuildArguments(query, cursor, limit, descendingOrder));
+            return await SendRpcRequestAsync<SuiPage_for_Event_and_EventID>("suix_queryEvents", ArgumentBuilder.BuildArguments(query, cursor, limit, descendingOrder));
         }
 
         public async Task<RpcResult<SuiPage_for_DynamicFieldInfo_and_ObjectID>> GetDynamicFieldsAsync(string objectId)
         {
             return await SendRpcRequestAsync<SuiPage_for_DynamicFieldInfo_and_ObjectID>("sui_getDynamicFields", ArgumentBuilder.BuildArguments(objectId));
+        }
+
+        public Task<RpcResult<SuiTransactionBlockResponse>> GetTransactionBlockAsync(string digest, SuiTransactionBlockResponseOptions options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiTransactionBlockResponse[]>> GetTransactionBlocksAsync(IEnumerable<string> digests, SuiTransactionBlockResponseOptions options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiObjectResponse>> GetObjectsAsync(IEnumerable<string> objectIds, SuiObjectDataOptions options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiObjectResponse>> GetObjectAsync(string objectId, SuiObjectDataOptions options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiCheckpoint>> GetCheckpointAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiPage_for_Checkpoint_and_BigInt_for_uint64>> SuiGetCheckpointsAsync(string cursor, ulong limit, bool isDescending)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiEvent[]>> GetEventAsync(string txDigest)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<ulong>> GetLatestCheckpointSequenceNumberAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiLoadedChildObjectsResponse>> GetLoadedChildObjectsAsync(string txDigest)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiPage_for_DynamicFieldInfo_and_ObjectID>> GetDynamicFieldsAsync(string parentObjectId, string cursor, ulong limit)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<RpcResult<SuiObjectResponse>> IExtendedApi.GetDynamicFieldObjectAsync(string parentObjectId, string fieldName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetOwnedObjectsAsync(string address, SuiObjectResponseQuery query, string cursor, ulong? limit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiPage_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(SuiTransactionBlockResponseQuery query, SuiEventId cursor, ulong? limit, bool? descendingOrder = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<string>> ResolveNameServiceAddressAsync(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiDevInspectResults>> DevInspectTransactionBlockAsync(string senderAddress, string txBytes, ulong? gasPrice, ulong? epoch)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiDryRunTransactionBlockResponse>> DryRunTransactionBlockAsync(string txBytes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiTransactionBlockResponse>> ExecuteTransactionBlockAsync(string txBytes, IEnumerable<string> signatures, SuiExecuteTransactionRequestType requestType, SuiTransactionBlockResponseOptions options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<MoveFunctionArgType[]>> GetMoveFunctionArgTypesAsync(string packageId, string module, string function)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiMoveNormalizedFunction>> GetNormalizedMoveFunctionAsync(string packageId, string module, string function)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiMoveNormalizedModule>> GetNormalizedMoveModuleAsync(string packageId, string module)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<Dictionary<string, SuiMoveNormalizedModule>>> GetNormalizedMoveModulesByPackageAsync(string packageId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiMoveNormalizedStruct>> GetNormalizedMoveStructAsync(string packageId, string module, string structName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiSystemStateSummary>> GetLatestSuiSystemStateAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<ulong>> GetReferenceGasPriceAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiDelegatedStake>> GetStakesAsync(string address)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiDelegatedStake[]>> GetStakesByIdsAsync(IEnumerable<string> objectIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiValidatorApys>> GetValidatorsApy()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiPage_for_DynamicFieldInfo_and_ObjectID>> GetDynamicFieldsAsync(string parentObjectId, string cursor, ulong? limit)
+        {
+            throw new NotImplementedException();
         }
     }
 

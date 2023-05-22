@@ -70,7 +70,7 @@ namespace Suinet.NftProtocol
         private async Task LoadDomainsForArtNftAsync(ArtNft nft, params Type[] withDomains)
         {
             var parentObjectId = nft.Id.Id;
-            var dynamicFields = await _jsonRpcApiClient.GetDynamicFieldsAsync(parentObjectId);
+            var dynamicFields = await _jsonRpcApiClient.GetDynamicFieldsAsync(parentObjectId, null, null);
 
             bool filterDomains = withDomains != null && withDomains.Any();
 

@@ -25,7 +25,7 @@
 
             foreach (var coinObjectId in coinObjectIds)
             {
-                var objectResult = await client.GetObjectAsync(coinObjectId);
+                var objectResult = await client.GetObjectAsync(coinObjectId, null);
                 if (objectResult.IsSuccess)
                 {
                     var balanceObject = objectResult.Result.Object.Data.Fields["balance"];

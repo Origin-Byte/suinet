@@ -2,7 +2,7 @@
 
 namespace Suinet.Rpc.Types
 {
-    public class SuiPage_for_EventEnvelope_and_EventID
+    public class SuiPage_for_Event_and_EventID
     {
         public IEnumerable<SuiEventEnvelope> Data { get; set; }
 
