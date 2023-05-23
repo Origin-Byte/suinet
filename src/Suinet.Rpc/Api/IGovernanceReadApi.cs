@@ -1,7 +1,5 @@
 ﻿using Suinet.Rpc.Types;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Suinet.Rpc.Api
@@ -37,6 +35,6 @@ namespace Suinet.Rpc.Api
         /// Return the validator APY
         /// </summary>
         /// <returns></returns>
-        Task<RpcResult<SuiValidatorApys>> GetValidatorsApy();
+        Task<RpcResult<ValidatorApys>> GetValidatorsApy();
     }
 }

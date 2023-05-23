@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Suinet.Rpc
 {
-    public partial class SuiJsonRpcApiClient : IReadApi, ITransactionBuilderApi, IQuorumDriverApi, IExtendedApi, IWriteApi, IMoveUtils, IGovernanceReadApi
+    public partial class SuiJsonRpcApiClient : IReadApi, ITransactionBuilderApi,  IExtendedApi, IWriteApi, IMoveUtils, IGovernanceReadApi
     {
         private readonly IRpcClient _rpcClient;
 
@@ -42,21 +42,21 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<SuiTransactionBytes>("sui_batchTransaction", ArgumentBuilder.BuildArguments(signer, singleTransactionParams, gas, gasBudget));
         }
 
-        public async Task<RpcResult<SuiExecuteTransactionResponse>> ExecuteTransactionAsync(string txBytes, SuiSignatureScheme sigScheme, string signature, string pubKey, SuiExecuteTransactionRequestType suiExecuteTransactionRequestType)
-        {
-            // Todo refact this logic from here
-            var signatureBytes = CryptoBytes.FromBase64String(signature);
-            var publicKeyBytes = CryptoBytes.FromBase64String(pubKey);
-            var finalSignatureBytes = new byte[signatureBytes.Length + 1 + publicKeyBytes.Length];
+        //public async Task<RpcResult<SuiExecuteTransactionResponse>> ExecuteTransactionAsync(string txBytes, SuiSignatureScheme sigScheme, string signature, string pubKey, SuiExecuteTransactionRequestType suiExecuteTransactionRequestType)
+        //{
+        //    // Todo refact this logic from here
+        //    var signatureBytes = CryptoBytes.FromBase64String(signature);
+        //    var publicKeyBytes = CryptoBytes.FromBase64String(pubKey);
+        //    var finalSignatureBytes = new byte[signatureBytes.Length + 1 + publicKeyBytes.Length];
 
-            finalSignatureBytes[0] = SignatureSchemeToByte(sigScheme);
-            Array.Copy(signatureBytes, 0, finalSignatureBytes, 1, signatureBytes.Length);
-            Array.Copy(publicKeyBytes, 0, finalSignatureBytes, signatureBytes.Length + 1, publicKeyBytes.Length);
+        //    finalSignatureBytes[0] = SignatureSchemeToByte(sigScheme);
+        //    Array.Copy(signatureBytes, 0, finalSignatureBytes, 1, signatureBytes.Length);
+        //    Array.Copy(publicKeyBytes, 0, finalSignatureBytes, signatureBytes.Length + 1, publicKeyBytes.Length);
 
-            var serializedSignature = CryptoBytes.ToBase64String(finalSignatureBytes);
+        //    var serializedSignature = CryptoBytes.ToBase64String(finalSignatureBytes);
 
-            return await SendRpcRequestAsync<SuiExecuteTransactionResponse>("sui_executeTransaction", ArgumentBuilder.BuildArguments(txBytes, serializedSignature, suiExecuteTransactionRequestType));
-        }
+        //    return await SendRpcRequestAsync<SuiExecuteTransactionResponse>("sui_executeTransaction", ArgumentBuilder.BuildArguments(txBytes, serializedSignature, suiExecuteTransactionRequestType));
+        //}
 
         byte SignatureSchemeToByte(SuiSignatureScheme suiSignatureScheme)
         {
@@ -95,14 +95,9 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<ulong>("sui_getTotalTransactionNumber");
         }
 
-        public async Task<RpcResult<SuiTransactionResponse>> GetTransactionBlockAsync(string digest)
+        public async Task<RpcResult<TransactionBlockResponse>> GetTransactionBlockAsync(string digest)
         {
-            return await SendRpcRequestAsync<SuiTransactionResponse>("sui_getTransaction", ArgumentBuilder.BuildArguments(digest));
-        }
-
-        public async Task<RpcResult<IEnumerable<(ulong, string)>>> GetTransactionsInRangeAsync(ulong start, ulong end)
-        {
-            return await SendRpcRequestAsync<IEnumerable<(ulong, string)>>("sui_getTransactionsInRange", ArgumentBuilder.BuildArguments(start, end));
+            return await SendRpcRequestAsync<TransactionBlockResponse>("sui_getTransactionBlock", ArgumentBuilder.BuildArguments(digest));
         }
 
         public async Task<RpcResult<SuiTransactionBytes>> MoveCallAsync(string signer, string packageObjectId, string module, string function, IEnumerable<string> typeArguments, IEnumerable<object> arguments, string gas, ulong gasBudget)
@@ -155,12 +150,12 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<SuiPage_for_DynamicFieldInfo_and_ObjectID>("sui_getDynamicFields", ArgumentBuilder.BuildArguments(objectId));
         }
 
-        public Task<RpcResult<SuiTransactionBlockResponse>> GetTransactionBlockAsync(string digest, SuiTransactionBlockResponseOptions options)
+        public Task<RpcResult<TransactionBlockResponse>> GetTransactionBlockAsync(string digest, TransactionBlockResponseOptions options)
         {
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<SuiTransactionBlockResponse[]>> GetTransactionBlocksAsync(IEnumerable<string> digests, SuiTransactionBlockResponseOptions options)
+        public Task<RpcResult<TransactionBlockResponse[]>> GetTransactionBlocksAsync(IEnumerable<string> digests, TransactionBlockResponseOptions options)
         {
             throw new NotImplementedException();
         }
@@ -210,12 +205,12 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetOwnedObjectsAsync(string address, SuiObjectResponseQuery query, string cursor, ulong? limit)
+        public Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetOwnedObjectsAsync(string address, ObjectResponseQuery query, string cursor, ulong? limit)
         {
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<SuiPage_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(SuiTransactionBlockResponseQuery query, SuiEventId cursor, ulong? limit, bool? descendingOrder = false)
+        public Task<RpcResult<SuiPage_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(TransactionBlockResponseQuery query, SuiEventId cursor, ulong? limit, bool? descendingOrder = false)
         {
             throw new NotImplementedException();
         }
@@ -235,7 +230,7 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<SuiTransactionBlockResponse>> ExecuteTransactionBlockAsync(string txBytes, IEnumerable<string> signatures, SuiExecuteTransactionRequestType requestType, SuiTransactionBlockResponseOptions options)
+        public Task<RpcResult<TransactionBlockResponse>> ExecuteTransactionBlockAsync(string txBytes, IEnumerable<string> signatures, SuiExecuteTransactionRequestType requestType, TransactionBlockResponseOptions options)
         {
             throw new NotImplementedException();
         }
@@ -285,7 +280,7 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<SuiValidatorApys>> GetValidatorsApy()
+        public Task<RpcResult<ValidatorApys>> GetValidatorsApy()
         {
             throw new NotImplementedException();
         }

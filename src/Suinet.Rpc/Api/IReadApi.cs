@@ -1,4 +1,4 @@
-﻿using Suinet.Rpc.Types;
+using Suinet.Rpc.Types;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -27,14 +27,6 @@ namespace Suinet.Rpc.Api
         Task<RpcResult<ulong>> GetTotalTransactionBlocksAsync();
 
         /// <summary>
-        /// Return list of transaction digests within the queried range.
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
-        Task<RpcResult<IEnumerable<(ulong, string)>>> GetTransactionsInRangeAsync(ulong start, ulong end);
-
-        /// <summary>
         /// Return list of recent transaction digest.
         /// </summary>
         /// <param name="count"></param>
@@ -46,16 +38,15 @@ namespace Suinet.Rpc.Api
         /// </summary>
         /// <param name="digest"></param>
         /// <returns></returns>
-        Task<RpcResult<SuiTransactionBlockResponse>> GetTransactionBlockAsync(string digest, SuiTransactionBlockResponseOptions options);
-
-        Task<RpcResult<SuiTransactionBlockResponse[]>> GetTransactionBlocksAsync(IEnumerable<string> digests, SuiTransactionBlockResponseOptions options);
+        Task<RpcResult<TransactionBlockResponse>> GetTransactionBlockAsync(string digest, TransactionBlockResponseOptions options);
 
         /// <summary>
-        /// Return the object data for a list of objects
+        /// Returns an ordered list of transaction responses The method will throw an error if the input contains any duplicate or the input size exceeds QUERY_MAX_RESULT_LIMIT
         /// </summary>
-        /// <param name="objectIds">the IDs of the queried objects</param>
+        /// <param name="digests"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        Task<RpcResult<SuiObjectResponse>> GetObjectsAsync(IEnumerable<string> objectIds, SuiObjectDataOptions options);
+        Task<RpcResult<TransactionBlockResponse[]>> GetTransactionBlocksAsync(IEnumerable<string> digests, TransactionBlockResponseOptions options);
 
         /// <summary>
         /// Return the object information for a specified object

@@ -11,7 +11,7 @@ namespace Suinet.Rpc.Types
 
         public MoveType Type { get; set; }
 
-        public SuiOwner Owner { get; set; }
+        public Owner Owner { get; set; }
 
         public string PreviousTransaction { get; set; }
     }

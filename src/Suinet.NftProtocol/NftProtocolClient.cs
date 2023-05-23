@@ -23,21 +23,21 @@ namespace Suinet.NftProtocol
             _signer = signer;
         }
 
-        public async Task<RpcResult<SuiExecuteTransactionResponse>> MintNftAsync(MintNft txParams, string gasObjectId)
+        public async Task<RpcResult<TransactionBlockResponse>> MintNftAsync(MintNft txParams, string gasObjectId)
         {
             return await ExecuteTxAsync(txParams, gasObjectId);
         }
 
-        public async Task<RpcResult<SuiExecuteTransactionResponse>> EnableSalesAsync(EnableSales txParams, string gasObjectId = null)
+        public async Task<RpcResult<TransactionBlockResponse>> EnableSalesAsync(EnableSales txParams, string gasObjectId = null)
         {
             return await ExecuteTxAsync(txParams, gasObjectId);
         }
 
-        private async Task<RpcResult<SuiExecuteTransactionResponse>> ExecuteTxAsync(IMoveCallTransactionBuilder txBuilder, string gasObjectId = null)
+        private async Task<RpcResult<TransactionBlockResponse>> ExecuteTxAsync(IMoveCallTransactionBuilder txBuilder, string gasObjectId = null)
         {
             var gas = gasObjectId ?? (await SuiHelper.GetCoinObjectIdsAboveBalancesOwnedByAddressAsync(_jsonRpcApiClient, txBuilder.Signer))[0];
-
-            return await _signer.SignAndExecuteMoveCallAsync(txBuilder.BuildMoveCallTransaction(gas));
+            return null;
+            //return await _signer.SignAndExecuteMoveCallAsync(txBuilder.BuildMoveCallTransaction(gas));
         }
 
         public async Task<RpcResult<ArtNft>> GetArtNftAsync(string objectId, params Type[] withDomains)

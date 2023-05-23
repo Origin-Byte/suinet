@@ -6,13 +6,19 @@ namespace Suinet.Rpc.Types
 {
     public class SuiData
     {
+        [JsonProperty("dataType")]
         public string DataType { get; set; }
 
-        public MoveType Type { get; set; }
+        [JsonProperty("fields")]
+        public MoveStruct Fields { get; set; }
 
-        [JsonProperty("has_public_transfer")]
+        [JsonProperty("hasPublicTransfer")]
         public bool HasPublicTransfer { get; set; }
 
-        public Dictionary<string, object> Fields { get; set; }      
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("disassembled")]
+        public Dictionary<string, object> Disassembled { get; set; }          
     }
 }

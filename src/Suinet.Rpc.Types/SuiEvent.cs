@@ -49,7 +49,7 @@ namespace Suinet.Rpc.Types
 
             public string PackageId { get; set; }
 
-            public SuiOwner Recipient { get; set; }
+            public Owner Recipient { get; set; }
 
             public string Sender { get; set; }
 
@@ -77,7 +77,7 @@ namespace Suinet.Rpc.Types
 
             public string PackageId { get; set; }
 
-            public SuiOwner Recipient { get; set; }
+            public Owner Recipient { get; set; }
 
             public string Sender { get; set; }
 

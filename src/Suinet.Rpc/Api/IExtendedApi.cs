@@ -42,7 +42,7 @@ namespace Suinet.Rpc.Api
         /// <param name="cursor"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetOwnedObjectsAsync(string address, SuiObjectResponseQuery query, string cursor, ulong? limit);
+        Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetOwnedObjectsAsync(string address, ObjectResponseQuery query, string cursor, ulong? limit);
 
         /// <summary>
         /// Return list of transactions for a specified query criteria
@@ -52,7 +52,7 @@ namespace Suinet.Rpc.Api
         /// <param name="limit">Maximum item returned per page, default to QUERY_MAX_RESULT_LIMIT if not specified.</param>
         /// <param name="descendingOrder">Query result ordering, default to false (ascending order), oldest record first.</param>
         /// <returns></returns>
-        Task<RpcResult<SuiPage_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(SuiTransactionBlockResponseQuery query, SuiEventId cursor, ulong? limit, bool? descendingOrder = false);
+        Task<RpcResult<SuiPage_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(TransactionBlockResponseQuery query, SuiEventId cursor, ulong? limit, bool? descendingOrder = false);
 
         /// <summary>
         /// Return the resolved address given resolver and name

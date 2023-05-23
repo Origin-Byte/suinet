@@ -11,9 +11,9 @@ namespace Suinet.NftProtocol
 {
     public interface INftProtocolClient
     {
-        Task<RpcResult<SuiExecuteTransactionResponse>> MintNftAsync(MintNft txParams, string gasObjectId = null);
+        Task<RpcResult<TransactionBlockResponse>> MintNftAsync(MintNft txParams, string gasObjectId = null);
 
-        Task<RpcResult<SuiExecuteTransactionResponse>> EnableSalesAsync(EnableSales txParams, string gasObjectId = null);
+        Task<RpcResult<TransactionBlockResponse>> EnableSalesAsync(EnableSales txParams, string gasObjectId = null);
 
         /// <summary>
         /// Retrieves an Art nft. If withDomains types are not provided, queryies all domains

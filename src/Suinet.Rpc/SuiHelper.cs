@@ -28,7 +28,7 @@
                 var objectResult = await client.GetObjectAsync(coinObjectId, null);
                 if (objectResult.IsSuccess)
                 {
-                    var balanceObject = objectResult.Result.Object.Data.Fields["balance"];
+                    var balanceObject = objectResult.Result.Data.Content.Disassembled["balance"];
                     var coinBalance = Convert.ToUInt64(balanceObject);
 
                     if (coinBalance > minBalance)

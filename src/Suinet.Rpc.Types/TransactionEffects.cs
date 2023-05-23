@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Suinet.Rpc.Types
 {
-    public class SuiTransactionEffects
+    public class TransactionEffects
     {
         public IEnumerable<SuiOwnedObjectRef> Created { get; set; }   
         

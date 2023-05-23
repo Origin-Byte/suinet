@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Suinet.Rpc.Types
 {
-    public class SuiTransactionBlockResponseOptions
+    public class SuiPage_for_Coin_and_ObjectID
     {
     }
 }

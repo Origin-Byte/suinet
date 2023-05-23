@@ -30,6 +30,6 @@ namespace Suinet.Rpc.Api
         /// </summary>
         /// <param name="txBytes">BCS serialized transaction data bytes without its type tag, as base-64 encoded string.</param>
         /// <returns></returns>
-        Task<RpcResult<SuiTransactionBlockResponse>> ExecuteTransactionBlockAsync(string txBytes, IEnumerable<string> signatures, SuiExecuteTransactionRequestType requestType, SuiTransactionBlockResponseOptions options);
+        Task<RpcResult<TransactionBlockResponse>> ExecuteTransactionBlockAsync(string txBytes, IEnumerable<string> signatures, SuiExecuteTransactionRequestType requestType, TransactionBlockResponseOptions options);
     }
 }

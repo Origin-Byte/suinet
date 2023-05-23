@@ -1,0 +1,93 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Suinet.Rpc.Types.MoveTypes;
+
+namespace Suinet.Rpc.Types
+{
+    public enum SuiTransactionType
+    {
+        MoveCall,
+        TransferObjects,
+        SplitCoins,
+        MergeCoins,
+        Publish,
+        Upgrade,
+        MakeMoveVec
+    }
+
+    public abstract class SuiTransaction
+    {
+        public SuiTransactionType TransactionType { get; set; }
+    }
+
+    public class SuiMoveCallTransaction : SuiTransaction
+    {
+        public SuiProgrammableMoveCall MoveCall { get; set; }
+
+        public SuiMoveCallTransaction()
+        {
+            TransactionType = SuiTransactionType.MoveCall;
+        }
+    }
+
+    public class SuiTransferObjectsTransaction : SuiTransaction
+    {
+        public List<List<SuiArgument>> TransferObjects { get; set; }
+
+        public SuiTransferObjectsTransaction()
+        {
+            TransactionType = SuiTransactionType.TransferObjects;
+        }
+    }
+
+    public class SplitCoinsTransaction : SuiTransaction
+    {
+        public List<List<SuiArgument>> SplitCoins { get; set; }
+
+        public SplitCoinsTransaction()
+        {
+            TransactionType = SuiTransactionType.SplitCoins;
+        }
+    }
+
+    public class MergeCoinsTransaction : SuiTransaction
+    {
+        public List<List<SuiArgument>> MergeCoins { get; set; }
+
+        public MergeCoinsTransaction()
+        {
+            TransactionType = SuiTransactionType.MergeCoins;
+        }
+    }
+
+    public class SuiPublishTransaction : SuiTransaction
+    {
+        public List<string> Publish { get; set; }
+
+        public SuiPublishTransaction()
+        {
+            TransactionType = SuiTransactionType.Publish;
+        }
+    }
+
+    public class SuiUpgradeTransaction : SuiTransaction
+    {
+        public List<List<string>> Upgrade { get; set; }
+
+        public SuiUpgradeTransaction()
+        {
+            TransactionType = SuiTransactionType.Upgrade;
+        }
+    }
+
+    public class SuiMakeMoveVecTransaction : SuiTransaction
+    {
+        public List<List<SuiArgument>> MakeMoveVec { get; set; }
+
+        public SuiMakeMoveVecTransaction()
+        {
+            TransactionType = SuiTransactionType.MakeMoveVec;
+        }
+    }
+}

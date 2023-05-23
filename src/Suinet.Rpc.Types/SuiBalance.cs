@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Suinet.Rpc.Types
 {
-    public class SuiTransactionBlockResponse
+    public class SuiBalance
     {
     }
 }
