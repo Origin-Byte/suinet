@@ -6,7 +6,7 @@ namespace Suinet.Wallet.Tests
 {
     public class Ed25519KeyPairTests
     {
-        private const string MNEMONIC = "that august urban math slender industry area mountain worry day ski hold";
+        private const string MNEMONIC = "pen flush vintage detect work resource stand pole execute arrow purpose muffin";
 
         [Fact]
         public void TestSign()
@@ -27,7 +27,7 @@ namespace Suinet.Wallet.Tests
         public void TestToSuiAddress()
         {
             var keyPair = Mnemonics.GetKeypairFromMnemonic(MNEMONIC);
-            keyPair.PublicKeyAsSuiAddress.Should().Be("0xe604761d791c1b28eff7d5d2558e1968ec1bed63");
+            keyPair.PublicKeyAsSuiAddress.Should().Be("0x2d7fe9442e5efeb41fecace0128ddf0ca5b92981c894ec9bf361b54c73aba80c");
         }
     }
 }
