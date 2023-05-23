@@ -1,7 +1,6 @@
 ﻿using Suinet.Rpc.Api;
 using Suinet.Rpc.Types;
 using Suinet.Rpc.Types.MoveTypes;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +14,11 @@ namespace Suinet.Rpc
     {
         public async Task<RpcResult<T>> GetObjectAsync<T>(string objectId) where T : class
         {
-            var result = await GetObjectAsync(objectId);
+            var options = new ObjectDataOptions()
+            {
+                ShowContent = true,
+            };
+            var result = await GetObjectAsync(objectId, options);
 
             return new RpcResult<T>
             {
@@ -23,13 +26,14 @@ namespace Suinet.Rpc
                 RawRpcRequest = result.RawRpcRequest,
                 RawRpcResponse = result.RawRpcResponse,
                 ErrorMessage = result.ErrorMessage,
-                Result = result.IsSuccess ? result.Result.Object.Data.Fields.ToObject<T>() : null
+                Result = result.IsSuccess ? result.Result.Data.Content.Disassembled.ToObject<T>() : null
             };
         }
 
         public async Task<RpcResult<IEnumerable<T>>> GetObjectsOwnedByAddressAsync<T>(string address) where T : class
         {
-            var rpcresult = await GetObjectsOwnedByAddressAsync(address);
+            var filter = ObjectDataFilterFactory.CreateMatchAllFilter(ObjectDataFilterFactory.CreateAddressOwnerFilter(address));
+            var rpcresult = await GetOwnedObjectsAsync(address, new ObjectResponseQuery() { Filter = filter }, null, null);
             var objectsOwnedByAddress = new RpcResult<IEnumerable<T>>
             {
                 IsSuccess = rpcresult.IsSuccess,

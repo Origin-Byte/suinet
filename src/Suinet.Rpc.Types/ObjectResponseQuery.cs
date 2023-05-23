@@ -2,7 +2,7 @@
 {
     public class ObjectResponseQuery
     {
-        public SuiObjectDataFilter Filter { get; set; } = null;
+        public ObjectDataFilter Filter { get; set; } = null;
 
         public ObjectDataOptions Options { get; set; } = null;
     }

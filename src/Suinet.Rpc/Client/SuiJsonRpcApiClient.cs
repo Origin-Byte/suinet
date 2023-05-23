@@ -3,15 +3,17 @@ using Suinet.Rpc.Api;
 using Suinet.Rpc.Client;
 using Suinet.Rpc.Http;
 using Suinet.Rpc.JsonRpc;
+using Suinet.Rpc.Signer;
 using Suinet.Rpc.Types;
 using Suinet.Rpc.Types.MoveTypes;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace Suinet.Rpc
 {
-    public partial class SuiJsonRpcApiClient : IReadApi, ITransactionBuilderApi,  IExtendedApi, IWriteApi, IMoveUtils, IGovernanceReadApi
+    public partial class SuiJsonRpcApiClient : IReadApi, IExtendedApi, IWriteApi, IMoveUtils, IGovernanceReadApi, ICoinQueryApi
     {
         private readonly IRpcClient _rpcClient;
 
@@ -37,11 +39,6 @@ namespace Suinet.Rpc
             return await _rpcClient.SendAsync<T>(request);
         }
 
-        public async Task<RpcResult<SuiTransactionBytes>> BatchTransactionAsync(string signer, IEnumerable<object> singleTransactionParams, string gas, ulong gasBudget)
-        {
-            return await SendRpcRequestAsync<SuiTransactionBytes>("sui_batchTransaction", ArgumentBuilder.BuildArguments(signer, singleTransactionParams, gas, gasBudget));
-        }
-
         //public async Task<RpcResult<SuiExecuteTransactionResponse>> ExecuteTransactionAsync(string txBytes, SuiSignatureScheme sigScheme, string signature, string pubKey, SuiExecuteTransactionRequestType suiExecuteTransactionRequestType)
         //{
         //    // Todo refact this logic from here
@@ -65,19 +62,9 @@ namespace Suinet.Rpc
             return 1;
         }
 
-        public async Task<RpcResult<SuiObjectRead>> GetObjectAsync(string objectId)
-        {
-            return await SendRpcRequestAsync<SuiObjectRead>("sui_getObject", ArgumentBuilder.BuildArguments(objectId));
-        }
-
         public async Task<RpcResult<SuiObjectRead>> GetDynamicFieldObjectAsync(string parentObjectId, string fieldName)
         {
             return await SendRpcRequestAsync<SuiObjectRead>("sui_getDynamicFieldObject", ArgumentBuilder.BuildArguments(parentObjectId, fieldName));
-        }
-
-        public async Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetObjectsOwnedByAddressAsync(string address)
-        {
-            return await SendRpcRequestAsync<IEnumerable<SuiObjectInfo>>("sui_getObjectsOwnedByAddress", ArgumentBuilder.BuildArguments(address));
         }
 
         public async Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetObjectsOwnedByObjectAsync(string objectId)
@@ -85,14 +72,9 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<IEnumerable<SuiObjectInfo>>("sui_getObjectsOwnedByObject", ArgumentBuilder.BuildArguments(objectId));
         }
 
-        public async Task<RpcResult<IEnumerable<(ulong, string)>>> GetRecentTransactionsAsync(ulong count)
+        public async Task<RpcResult<System.Numerics.BigInteger>> GetTotalTransactionBlocksAsync()
         {
-            return await SendRpcRequestAsync<IEnumerable<(ulong, string)>>("sui_getRecentTransactions", ArgumentBuilder.BuildArguments(count));
-        }
-
-        public async Task<RpcResult<ulong>> GetTotalTransactionBlocksAsync()
-        {
-            return await SendRpcRequestAsync<ulong>("sui_getTotalTransactionNumber");
+            return await SendRpcRequestAsync<System.Numerics.BigInteger>("sui_getTotalTransactionBlocks");
         }
 
         public async Task<RpcResult<TransactionBlockResponse>> GetTransactionBlockAsync(string digest)
@@ -160,14 +142,14 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<SuiObjectResponse>> GetObjectsAsync(IEnumerable<string> objectIds, SuiObjectDataOptions options)
+        public Task<RpcResult<SuiObjectResponse>> GetObjectsAsync(IEnumerable<string> objectIds, ObjectDataOptions options)
         {
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<SuiObjectResponse>> GetObjectAsync(string objectId, SuiObjectDataOptions options)
+        public async Task<RpcResult<SuiObjectResponse>> GetObjectAsync(string objectId, ObjectDataOptions options)
         {
-            throw new NotImplementedException();
+            return await SendRpcRequestAsync<SuiObjectResponse>("sui_getObject", ArgumentBuilder.BuildArguments(objectId, options));
         }
 
         public Task<RpcResult<SuiCheckpoint>> GetCheckpointAsync(string id)
@@ -288,6 +270,21 @@ namespace Suinet.Rpc
         public Task<RpcResult<SuiPage_for_DynamicFieldInfo_and_ObjectID>> GetDynamicFieldsAsync(string parentObjectId, string cursor, ulong? limit)
         {
             throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<BigInteger[]>> GetAllBalancesAsync(string ownerAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RpcResult<SuiPage_for_Coin_and_ObjectID>> GetAllCoinsAsync(string ownerAddress, string cursor, ulong limit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<RpcResult<BigInteger>> GetBalanceAsync(string ownerAddress, string coinType)
+        {
+            return await SendRpcRequestAsync<BigInteger>("suix_getBalance", ArgumentBuilder.BuildArguments(ownerAddress, coinType));
         }
     }
 

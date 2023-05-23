@@ -1,5 +1,6 @@
 using Suinet.Rpc.Types;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace Suinet.Rpc.Api
@@ -7,31 +8,10 @@ namespace Suinet.Rpc.Api
     public interface IReadApi
     {
         /// <summary>
-        /// Return the list of objects owned by an address.
-        /// </summary>
-        /// <param name="address"></param>
-        /// <returns></returns>
-        Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetObjectsOwnedByAddressAsync(string address);
-
-        /// <summary>
-        /// Return the list of objects owned by an object.
-        /// </summary>
-        /// <param name="objectId"></param>
-        /// <returns></returns>
-        Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetObjectsOwnedByObjectAsync(string objectId);
-
-        /// <summary>
         /// Return the total number of transactions known to the server.
         /// </summary>
         /// <returns></returns>
-        Task<RpcResult<ulong>> GetTotalTransactionBlocksAsync();
-
-        /// <summary>
-        /// Return list of recent transaction digest.
-        /// </summary>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        Task<RpcResult<IEnumerable<(ulong, string)>>> GetRecentTransactionsAsync(ulong count);
+        Task<RpcResult<BigInteger>> GetTotalTransactionBlocksAsync();
 
         /// <summary>
         /// Return the transaction response object.
@@ -53,7 +33,7 @@ namespace Suinet.Rpc.Api
         /// </summary>
         /// <param name="objectId"></param>
         /// <returns></returns>
-        Task<RpcResult<SuiObjectResponse>> GetObjectAsync(string objectId, SuiObjectDataOptions options);
+        Task<RpcResult<SuiObjectResponse>> GetObjectAsync(string objectId, ObjectDataOptions options);
 
         /// <summary>
         /// Return a checkpoint

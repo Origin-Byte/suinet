@@ -1,28 +1,19 @@
-﻿using System.ComponentModel;
-
-namespace Suinet.Rpc.Types
+﻿namespace Suinet.Rpc.Types
 {
     public class ObjectDataOptions
     {
-        [DefaultValue(false)]
-        public bool ShowBcs { get; set; }
+        public bool ShowBcs { get; set; } = false;
 
-        [DefaultValue(false)]
-        public bool ShowContent { get; set; }
+        public bool ShowContent { get; set; } = false;
 
-        [DefaultValue(false)]
-        public bool ShowDisplay { get; set; }
+        public bool ShowDisplay { get; set; } = false;
 
-        [DefaultValue(false)]
-        public bool ShowOwner { get; set; }
+        public bool ShowOwner { get; set; } = false;
 
-        [DefaultValue(false)]
-        public bool ShowPreviousTransaction { get; set; }
+        public bool ShowPreviousTransaction { get; set; } = false;
 
-        [DefaultValue(false)]
-        public bool ShowStorageRebate { get; set; }
+        public bool ShowStorageRebate { get; set; } = false;
 
-        [DefaultValue(false)]
-        public bool ShowType { get; set; }
+        public bool ShowType { get; set; } = false;
     }
 }
