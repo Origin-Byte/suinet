@@ -64,7 +64,7 @@ namespace Suinet.Rpc.Types
 
     public class VersionFilter : ObjectDataFilter
     {
-        public System.Numerics.BigInteger Version { get; set; }
+        public BigInteger Version { get; set; }
     }
 
 }

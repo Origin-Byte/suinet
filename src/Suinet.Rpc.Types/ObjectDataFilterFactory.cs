@@ -56,7 +56,7 @@ namespace Suinet.Rpc.Types
             return new ObjectIdsFilter { ObjectIds = objectIds.ToList() };
         }
 
-        public static VersionFilter CreateVersionFilter(System.Numerics.BigInteger version)
+        public static VersionFilter CreateVersionFilter(BigInteger version)
         {
             return new VersionFilter { Version = version };
         }

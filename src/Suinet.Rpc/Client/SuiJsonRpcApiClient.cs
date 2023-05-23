@@ -72,9 +72,9 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<IEnumerable<SuiObjectInfo>>("sui_getObjectsOwnedByObject", ArgumentBuilder.BuildArguments(objectId));
         }
 
-        public async Task<RpcResult<System.Numerics.BigInteger>> GetTotalTransactionBlocksAsync()
+        public async Task<RpcResult<BigInteger>> GetTotalTransactionBlocksAsync()
         {
-            return await SendRpcRequestAsync<System.Numerics.BigInteger>("sui_getTotalTransactionBlocks");
+            return await SendRpcRequestAsync<BigInteger>("sui_getTotalTransactionBlocks");
         }
 
         public async Task<RpcResult<TransactionBlockResponse>> GetTransactionBlockAsync(string digest)
