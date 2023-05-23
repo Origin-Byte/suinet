@@ -1,4 +1,5 @@
 using FluentAssertions;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Suinet.Wallet.Tests
@@ -17,23 +18,27 @@ namespace Suinet.Wallet.Tests
             mnemo.Split(' ').Should().HaveCount(12);
         }
 
-        [Fact]
-        public void TestGetKeypairFromMnemonic2()
+        public static IEnumerable<object[]> GetMnemonicKeypairData => new List<object[]>
         {
-            var keyPair = Mnemonics.GetKeypairFromMnemonic("that august urban math slender industry area mountain worry day ski hold");
+            new object[] {
+                "film crazy soon outside stand loop subway crumble thrive popular green nuclear struggle pistol arm wife phrase warfare march wheat nephew ask sunny firm",
+                "/noDlhYrZghx2Iwlf2hyQzX+X8pCen8nRrWDGC82zNTb5qQlSBB/HwaUvcOiUNyaGvR9QiA3M0ozmhOZ6fmcuQ==",
+                "2+akJUgQfx8GpL3DolDcmhr0fUIgNzNKM5oTmen5nLk="
+            },
+            new object[] {
+                "result crisp session latin must fruit genuine question prevent start coconut brave speak student dismiss",
+                "7jlISawJNpXqPJ22zuFAB4dKecEY/La4pWhP2kvcaV5oWy1vmHhN12MkmvIckvWIyhvoDECpjFW/fJG3TlrB4g==",
+                "aFstb5h4TddjJJryHJL1iMob6AxAqYxVv3yRt05aweI="
+            },
+        };
 
-            keyPair.PrivateKeyBase64.Should().Be("/noDlhYrZghx2Iwlf2hyQzX+X8pCen8nRrWDGC82zNTb5qQlSBB/HwaUvcOiUNyaGvR9QiA3M0ozmhOZ6fmcuQ==");
-            keyPair.PublicKeyBase64.Should().Be("2+akJUgQfx8GlL3DolDcmhr0fUIgNzNKM5oTmen5nLk=");
-        }
-
-        [Fact]
-        public void TestGetKeypairFromMnemonic()
+        [Theory]
+        [MemberData(nameof(GetMnemonicKeypairData))]
+        public void TestGetKeypairFromMnemonic(string mnemonic, string expectedPrivateKey, string expectedAddress)
         {
-            var keyPair = Mnemonics.GetKeypairFromMnemonic(TEST_MNEMONIC_SUI);
-
-            keyPair.PrivateKeyBase64.Should().Be("7jlISawJNpXqPJ22zuFAB4dKecEY/La4pWhP2kvcaV5oWy1vmHhN12MkmvIckvWIyhvoDECpjFW/fJG3TlrB4g==");
-            keyPair.PublicKeyBase64.Should().Be("aFstb5h4TddjJJryHJL1iMob6AxAqYxVv3yRt05aweI=");
-            keyPair.PublicKeyAsSuiAddress.Should().Be("0x1a4623343cd42be47d67314fce0ad042f3c82685");
+            var keyPair = Mnemonics.GetKeypairFromMnemonic(mnemonic);
+            keyPair.PrivateKeyBase64.Should().Be(expectedPrivateKey);
+            keyPair.PublicKeyAsSuiAddress.Should().Be(expectedAddress);
         }
 
         [Fact]
