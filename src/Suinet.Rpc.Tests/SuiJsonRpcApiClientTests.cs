@@ -325,7 +325,7 @@ namespace Suinet.Rpc.Tests
             balance.Should().NotBeNull();
             balance.Result.Should().NotBeNull();
             balance.IsSuccess.Should().BeTrue();
-            var ulongBalance = (ulong)balance.Result;
+            var ulongBalance = (ulong)balance.Result.TotalBalance;
             ulongBalance.Should().BeGreaterThan(0);
         }
 

@@ -10,7 +10,7 @@ namespace Suinet.Rpc.Api
         /// </summary>
         /// <param name="ownerAddress">the owner's Sui address</param>
         /// <returns></returns>
-        Task<RpcResult<BigInteger[]>> GetAllBalancesAsync(string ownerAddress);
+        Task<RpcResult<Balance[]>> GetAllBalancesAsync(string ownerAddress);
 
         /// <summary>
         /// Return all Coin objects owned by an address
@@ -27,6 +27,6 @@ namespace Suinet.Rpc.Api
         /// <param name="ownerAddress"></param>
         /// <param name="coinType"></param>
         /// <returns></returns>
-        Task<RpcResult<BigInteger>> GetBalanceAsync(string ownerAddress, string coinType);
+        Task<RpcResult<Balance>> GetBalanceAsync(string ownerAddress, string coinType);
     }
 }

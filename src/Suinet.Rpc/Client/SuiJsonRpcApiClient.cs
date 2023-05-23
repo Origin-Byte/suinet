@@ -272,7 +272,7 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<BigInteger[]>> GetAllBalancesAsync(string ownerAddress)
+        public Task<RpcResult<Balance[]>> GetAllBalancesAsync(string ownerAddress)
         {
             throw new NotImplementedException();
         }
@@ -282,9 +282,9 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public async Task<RpcResult<BigInteger>> GetBalanceAsync(string ownerAddress, string coinType)
+        public async Task<RpcResult<Balance>> GetBalanceAsync(string ownerAddress, string coinType)
         {
-            return await SendRpcRequestAsync<BigInteger>("suix_getBalance", ArgumentBuilder.BuildArguments(ownerAddress, coinType));
+            return await SendRpcRequestAsync<Balance>("suix_getBalance", ArgumentBuilder.BuildArguments(ownerAddress, coinType));
         }
     }
 
