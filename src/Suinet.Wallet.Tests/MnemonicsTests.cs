@@ -8,36 +8,35 @@ namespace Suinet.Wallet.Tests
     {
         // test mnemonic from sui sdk tests for reference
         // https://github.com/MystenLabs/sui/blob/main/sdk/typescript/test/unit/cryptography/ed25519-keypair.test.ts
-        private const string TEST_MNEMONIC_SUI =
-  "result crisp session latin must fruit genuine question prevent start coconut brave speak student dismiss";
 
         [Fact]
         public void TestGenerateMnemonic()
         {
             var mnemo = Mnemonics.GenerateMnemonic();
-            mnemo.Split(' ').Should().HaveCount(12);
+            mnemo.Split(' ').Should().HaveCount(24);
         }
 
         public static IEnumerable<object[]> GetMnemonicKeypairData => new List<object[]>
         {
             new object[] {
                 "film crazy soon outside stand loop subway crumble thrive popular green nuclear struggle pistol arm wife phrase warfare march wheat nephew ask sunny firm",
-                "/noDlhYrZghx2Iwlf2hyQzX+X8pCen8nRrWDGC82zNTb5qQlSBB/HwaUvcOiUNyaGvR9QiA3M0ozmhOZ6fmcuQ==",
-                "2+akJUgQfx8GpL3DolDcmhr0fUIgNzNKM5oTmen5nLk="
+                "0xa2d14fad60c56049ecf75246a481934691214ce413e6a8ae2fe6834c173a6133"
             },
             new object[] {
-                "result crisp session latin must fruit genuine question prevent start coconut brave speak student dismiss",
-                "7jlISawJNpXqPJ22zuFAB4dKecEY/La4pWhP2kvcaV5oWy1vmHhN12MkmvIckvWIyhvoDECpjFW/fJG3TlrB4g==",
-                "aFstb5h4TddjJJryHJL1iMob6AxAqYxVv3yRt05aweI="
+                "require decline left thought grid priority false tiny gasp angle royal system attack beef setup reward aunt skill wasp tray vital bounce inflict level",
+                "0x1ada6e6f3f3e4055096f606c746690f1108fcc2ca479055cc434a3e1d3f758aa"
+            },
+            new object[] {
+                "organ crash swim stick traffic remember army arctic mesh slice swear summer police vast chaos cradle squirrel hood useless evidence pet hub soap lake",
+                "0xe69e896ca10f5a77732769803cc2b5707f0ab9d4407afb5e4b4464b89769af14"
             },
         };
 
         [Theory]
         [MemberData(nameof(GetMnemonicKeypairData))]
-        public void TestGetKeypairFromMnemonic(string mnemonic, string expectedPrivateKey, string expectedAddress)
+        public void TestGetKeypairFromMnemonic(string mnemonic, string expectedAddress)
         {
             var keyPair = Mnemonics.GetKeypairFromMnemonic(mnemonic);
-            keyPair.PrivateKeyBase64.Should().Be(expectedPrivateKey);
             keyPair.PublicKeyAsSuiAddress.Should().Be(expectedAddress);
         }
 

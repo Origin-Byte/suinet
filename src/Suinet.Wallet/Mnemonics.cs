@@ -25,7 +25,7 @@ namespace Suinet.Wallet
         /// </summary>
         private const string Curve = "ed25519 seed";
 
-        public static string GenerateMnemonic(int? entropy = 128, BIP39Wordlist? wordList = DefaultWordList)
+        public static string GenerateMnemonic(int? entropy = 256, BIP39Wordlist? wordList = DefaultWordList)
         {
             var bip39 = new BIP39();
             return bip39.GenerateMnemonic(entropy.Value, wordList.Value);
