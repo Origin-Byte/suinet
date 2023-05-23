@@ -13,7 +13,7 @@ namespace Suinet.Wallet.Tests
         public void TestGenerateMnemonic()
         {
             var mnemo = Mnemonics.GenerateMnemonic();
-            mnemo.Split(' ').Should().HaveCount(24);
+            mnemo.Split(' ').Should().HaveCount(12);
         }
 
         public static IEnumerable<object[]> GetMnemonicKeypairData => new List<object[]>
