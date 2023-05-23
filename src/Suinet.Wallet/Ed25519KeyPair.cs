@@ -22,7 +22,7 @@ namespace Suinet.Wallet
             // we only need the first 32 bytes of the private key
             byte[] first32Bytes = new byte[32];
             Array.Copy(privateKey, 0, first32Bytes, 0, 32);
-            PrivateKeyBase64 = Base64Converter.ToB64(first32Bytes);
+            PrivateKeyBase64 = CryptoBytes.ToBase64String(first32Bytes);
 
             PublicKeyAsSuiAddress = ToSuiAddress(publicKey);
         }
