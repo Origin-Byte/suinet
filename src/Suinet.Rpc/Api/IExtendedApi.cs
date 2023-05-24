@@ -1,5 +1,4 @@
 ﻿using Suinet.Rpc.Types;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Suinet.Rpc.Api
@@ -42,7 +41,7 @@ namespace Suinet.Rpc.Api
         /// <param name="cursor"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetOwnedObjectsAsync(string address, ObjectResponseQuery query, string cursor, ulong? limit);
+        Task<RpcResult<Page_for_SuiObjectResponse_and_ObjectID>> GetOwnedObjectsAsync(string address, ObjectResponseQuery query, string cursor, ulong? limit);
 
         /// <summary>
         /// Return list of transactions for a specified query criteria

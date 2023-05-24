@@ -17,23 +17,38 @@ namespace Suinet.Rpc
             var options = new ObjectDataOptions()
             {
                 ShowContent = true,
+                ShowType = true
             };
             var result = await GetObjectAsync(objectId, options);
 
+            if (result.Result.Data.Content is MoveObjectData moveObjectData)
+            {
+                var typedObject = moveObjectData.ConvertFieldsTo<T>();
+
+                return new RpcResult<T>
+                {
+                    IsSuccess = result.IsSuccess,
+                    RawRpcRequest = result.RawRpcRequest,
+                    RawRpcResponse = result.RawRpcResponse,
+                    ErrorMessage = result.ErrorMessage,
+                    Result = typedObject
+                };
+            }
+
             return new RpcResult<T>
             {
-                IsSuccess = result.IsSuccess,
+                IsSuccess = false,
                 RawRpcRequest = result.RawRpcRequest,
                 RawRpcResponse = result.RawRpcResponse,
                 ErrorMessage = result.ErrorMessage,
-                Result = result.IsSuccess ? result.Result.Data.Content.Disassembled.ToObject<T>() : null
+                Result = null
             };
         }
 
-        public async Task<RpcResult<IEnumerable<T>>> GetObjectsOwnedByAddressAsync<T>(string address) where T : class
+        public async Task<RpcResult<IEnumerable<T>>> GetObjectsOwnedByAddressAsync<T>(string address, string cursor, ulong? limit) where T : class
         {
             var filter = ObjectDataFilterFactory.CreateMatchAllFilter(ObjectDataFilterFactory.CreateAddressOwnerFilter(address));
-            var rpcresult = await GetOwnedObjectsAsync(address, new ObjectResponseQuery() { Filter = filter }, null, null);
+            var rpcresult = await GetOwnedObjectsAsync(address, new ObjectResponseQuery() { Filter = filter }, cursor, limit);
             var objectsOwnedByAddress = new RpcResult<IEnumerable<T>>
             {
                 IsSuccess = rpcresult.IsSuccess,
@@ -44,16 +59,17 @@ namespace Suinet.Rpc
 
             if (rpcresult.IsSuccess)
             {
-                objectsOwnedByAddress.Result = await GetObjectsAsync<T>(rpcresult.Result);
+                objectsOwnedByAddress.Result = await GetObjectsAsync<T>(rpcresult.Result.Data.Select(d => d.Data.ObjectId));
             }
 
             return objectsOwnedByAddress;
         }
 
-        public async Task<RpcResult<IEnumerable<T>>> GetObjectsOwnedByObjectAsync<T>(string objectId) where T : class
+        public async Task<RpcResult<IEnumerable<T>>> GetOwnedObjectsAsync<T>(string address, ObjectResponseQuery query, string cursor, ulong? limit) where T : class
         {
-            var rpcresult = await GetObjectsOwnedByObjectAsync(objectId);
-            var objectsOwnedByAddress = new RpcResult<IEnumerable<T>>
+            var rpcresult = await GetOwnedObjectsAsync(address, query, cursor, limit);
+
+            var objectsOwned = new RpcResult<IEnumerable<T>>
             {
                 IsSuccess = rpcresult.IsSuccess,
                 RawRpcRequest = rpcresult.RawRpcRequest,
@@ -63,20 +79,10 @@ namespace Suinet.Rpc
 
             if (rpcresult.IsSuccess)
             {
-                objectsOwnedByAddress.Result = await GetObjectsAsync<T>(rpcresult.Result);
-
+                objectsOwned.Result = await GetObjectsAsync<T>(rpcresult.Result.Data.Select(d => d.Data.ObjectId));
             }
 
-            return objectsOwnedByAddress;
-        }
-
-
-        public async Task<IEnumerable<T>> GetObjectsAsync<T>(IEnumerable<SuiObjectInfo> objectInfos) where T : class
-        {
-            var objectType = typeof(T);
-            objectInfos = objectInfos.Where(x => MoveTypeHelper.IsMatchingMoveType(objectType, x.Type.Type)).ToArray();
-
-            return await GetObjectsAsync<T>(objectInfos.Select(o => o.ObjectId));
+            return objectsOwned;
         }
 
         public async Task<IEnumerable<T>> GetObjectsAsync<T>(IEnumerable<string> objectIds) where T : class
@@ -99,16 +105,17 @@ namespace Suinet.Rpc
         {
             var result = await GetDynamicFieldObjectAsync(parentObjectId, fieldName);
 
-            var dynamicFieldResult = result.Result.Object.Data.Fields.ToObject<DynamicField>();
+            return null;
+            //var dynamicFieldResult = result.Result.Object.Data.Fields.ToObject<DynamicField>();
 
-            return new RpcResult<T>
-            {
-                IsSuccess = result.IsSuccess,
-                RawRpcRequest = result.RawRpcRequest,
-                RawRpcResponse = result.RawRpcResponse,
-                ErrorMessage = result.ErrorMessage,
-                Result = result.IsSuccess ? dynamicFieldResult.Value.Fields.ToObject<T>() : null
-            };
+            //return new RpcResult<T>
+            //{
+            //    IsSuccess = result.IsSuccess,
+            //    RawRpcRequest = result.RawRpcRequest,
+            //    RawRpcResponse = result.RawRpcResponse,
+            //    ErrorMessage = result.ErrorMessage,
+            //    Result = result.IsSuccess ? dynamicFieldResult.Value.Fields.ToObject<T>() : null
+            //};
         }
 
     }

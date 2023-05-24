@@ -54,7 +54,7 @@ namespace Suinet.NftProtocol
 
         public async Task<RpcResult<IEnumerable<ArtNft>>> GetArtNftsOwnedByAddressAsync(string address, params Type[] withDomains)
         {
-            var nftsResult = await _jsonRpcApiClient.GetObjectsOwnedByAddressAsync<ArtNft>(address);
+            var nftsResult = await _jsonRpcApiClient.GetObjectsOwnedByAddressAsync<ArtNft>(address, null, null);
 
             if (nftsResult == null || !nftsResult.IsSuccess) return nftsResult;
 

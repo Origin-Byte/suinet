@@ -10,11 +10,9 @@ namespace Suinet.Rpc.Api
 
         Task<RpcResult<T>> GetDynamicFieldObjectAsync<T>(string parentObjectId, string fieldName) where T : class;
 
-        Task<RpcResult<IEnumerable<T>>> GetObjectsOwnedByAddressAsync<T>(string address) where T : class;
+        Task<RpcResult<IEnumerable<T>>> GetObjectsOwnedByAddressAsync<T>(string ownerAddress, string cursor, ulong? limit) where T : class;
 
-        Task<RpcResult<IEnumerable<T>>> GetObjectsOwnedByObjectAsync<T>(string objectId) where T : class;
-
-        Task<IEnumerable<T>> GetObjectsAsync<T>(IEnumerable<SuiObjectInfo> objectInfos) where T : class;
+        Task<RpcResult<IEnumerable<T>>> GetOwnedObjectsAsync<T>(string ownerAddress, ObjectResponseQuery query, string cursor, ulong? limit) where T : class;
 
         Task<IEnumerable<T>> GetObjectsAsync<T>(IEnumerable<string> objectIds) where T : class;
     }

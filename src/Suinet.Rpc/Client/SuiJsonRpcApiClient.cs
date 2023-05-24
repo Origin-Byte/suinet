@@ -67,11 +67,6 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<SuiObjectRead>("sui_getDynamicFieldObject", ArgumentBuilder.BuildArguments(parentObjectId, fieldName));
         }
 
-        public async Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetObjectsOwnedByObjectAsync(string objectId)
-        {
-            return await SendRpcRequestAsync<IEnumerable<SuiObjectInfo>>("sui_getObjectsOwnedByObject", ArgumentBuilder.BuildArguments(objectId));
-        }
-
         public async Task<RpcResult<BigInteger>> GetTotalTransactionBlocksAsync()
         {
             return await SendRpcRequestAsync<BigInteger>("sui_getTotalTransactionBlocks");
@@ -142,9 +137,9 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<SuiObjectResponse>> GetObjectsAsync(IEnumerable<string> objectIds, ObjectDataOptions options)
+        public async Task<RpcResult<SuiObjectResponse>> GetObjectsAsync(IEnumerable<string> objectIds, ObjectDataOptions options)
         {
-            throw new NotImplementedException();
+            return await SendRpcRequestAsync<SuiObjectResponse>("sui_multiGetObjects", ArgumentBuilder.BuildArguments(objectIds, options));
         }
 
         public async Task<RpcResult<SuiObjectResponse>> GetObjectAsync(string objectId, ObjectDataOptions options)
@@ -187,9 +182,9 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<IEnumerable<SuiObjectInfo>>> GetOwnedObjectsAsync(string address, ObjectResponseQuery query, string cursor, ulong? limit)
+        public async Task<RpcResult<Page_for_SuiObjectResponse_and_ObjectID>> GetOwnedObjectsAsync(string address, ObjectResponseQuery query, string cursor, ulong? limit)
         {
-            throw new NotImplementedException();
+            return await SendRpcRequestAsync<Page_for_SuiObjectResponse_and_ObjectID>("suix_getOwnedObjects", ArgumentBuilder.BuildArguments(address, query, cursor, limit));
         }
 
         public Task<RpcResult<SuiPage_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(TransactionBlockResponseQuery query, SuiEventId cursor, ulong? limit, bool? descendingOrder = false)

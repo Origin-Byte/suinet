@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Suinet.Rpc.Types.Converters;
+using System.Collections.Generic;
 
 namespace Suinet.Rpc.Types.MoveTypes
 {
+    [JsonConverter(typeof(MoveValueJsonConverter))]
     public abstract class MoveValue
     {
     }
@@ -28,16 +31,19 @@ namespace Suinet.Rpc.Types.MoveTypes
 
     public class ObjectIDMoveValue : MoveValue
     {
-        public ObjectId Id { get; set; }
+        [JsonProperty("id")]
+        public string Id { get; set; }
     }
 
     public class MoveStructMoveValue : MoveValue
     {
+        [JsonConverter(typeof(MoveValueJsonConverter))]
         public MoveStruct Value { get; set; }
     }
 
     public class ArrayMoveValue : MoveValue
     {
+        [JsonConverter(typeof(MoveValueJsonConverter))]
         public List<MoveValue> Value { get; set; }
     }
 }

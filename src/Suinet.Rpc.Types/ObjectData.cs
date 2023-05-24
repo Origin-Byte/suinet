@@ -1,16 +1,16 @@
-﻿using Suinet.Rpc.Types.MoveTypes;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Suinet.Rpc.Types.Converters;
 using System.Numerics;
-using System.Text;
 
 namespace Suinet.Rpc.Types
 {
     public class ObjectData
     {
+        [JsonConverter(typeof(RawDataJsonConverter))]
         public RawData Bcs { get; set; }
 
-        public SuiData Content { get; set; }
+        [JsonConverter(typeof(DataJsonConverter))]
+        public Data Content { get; set; }
 
         public string Digest { get; set; }
 
@@ -22,7 +22,7 @@ namespace Suinet.Rpc.Types
 
         public string PreviousTransaction { get; set; }
 
-        public BigInteger StorageRebate { get; set; }
+        public BigInteger? StorageRebate { get; set; }
 
         public string Type { get; set; }
 

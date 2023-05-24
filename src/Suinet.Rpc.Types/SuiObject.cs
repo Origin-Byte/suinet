@@ -1,8 +1,13 @@
-﻿namespace Suinet.Rpc.Types
+﻿using Newtonsoft.Json;
+using Suinet.Rpc.Types.Converters;
+
+namespace Suinet.Rpc.Types
 {
     public class SuiObject
     {
-        public SuiData Data { get; set; }
+        [JsonConverter(typeof(DataJsonConverter))]
+
+        public Data Data { get; set; }
 
         public Owner Owner { get; set; }
 

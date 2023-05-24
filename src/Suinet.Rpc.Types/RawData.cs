@@ -1,41 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace Suinet.Rpc.Types
 {
-    public class RawData
+    public abstract class RawData
     {
-        public MoveObjectData MoveObject { get; set; }
-
-        public PackageData Package { get; set; }
+        [JsonProperty("dataType")]
+        public string DataType { get; set; }
     }
 
-    public class MoveObjectData
+    public class MoveObjectRawData : RawData
     {
-        public string BcsBytes { get; set; }
+        [JsonProperty("bcsBytes")]
+        public string BcsBytes { get; set; } 
 
-        public string DataType { get; set; }
-
+        [JsonProperty("hasPublicTransfer")]
         public bool HasPublicTransfer { get; set; }
 
+        [JsonProperty("type")]
         public string Type { get; set; }
 
+        [JsonProperty("version")]
         public BigInteger Version { get; set; }
     }
 
-    public class PackageData
+    public class PackageRawData : RawData
     {
-        public string DataType { get; set; }
+        [JsonProperty("id")]
+        public ObjectId Id { get; set; }
 
-        public string Id { get; set; }
-
+        [JsonProperty("linkageTable")]
         public Dictionary<string, UpgradeInfo> LinkageTable { get; set; }
 
+        [JsonProperty("moduleMap")]
         public Dictionary<string, string> ModuleMap { get; set; }
 
+        [JsonProperty("typeOriginTable")]
         public List<TypeOrigin> TypeOriginTable { get; set; }
 
+        [JsonProperty("version")]
         public BigInteger Version { get; set; }
     }
-
 }

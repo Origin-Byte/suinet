@@ -18,5 +18,32 @@
         {
             return objectId.value;
         }
+
+        public static bool IsValid(string input)
+        {
+            if (input.StartsWith("0x"))
+            {
+                input = input.Substring(2);
+            }
+
+            if (input.Length != 64) // In C#, a byte is represented by 2 hexadecimal digits
+            {
+                return false;
+            }
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                char c = input[i];
+                bool isHexDigit = (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+
+                if (!isHexDigit)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
     }
 }
