@@ -73,6 +73,7 @@ namespace Suinet.NftProtocol
 
         private async Task LoadDomainsForArtNftAsync(ArtNft nft, params Type[] withDomains)
         {
+            throw new NotImplementedException(); // TODO parsers
             var parentObjectId = nft.Id.Id;
             var dynamicFields = await _jsonRpcApiClient.GetDynamicFieldsAsync(parentObjectId, null, null);
 
@@ -84,7 +85,7 @@ namespace Suinet.NftProtocol
 
                 if (objectFieldInfo != null) 
                 {
-                    var domainResult = await _jsonRpcApiClient.GetDynamicFieldObjectAsync<UrlDomain>(parentObjectId, objectFieldInfo.Name);
+                    var domainResult = await _jsonRpcApiClient.GetDynamicFieldObjectAsync<UrlDomain>(parentObjectId, objectFieldInfo.Name, null);
                     if (domainResult != null && domainResult.IsSuccess)
                     {
                         nft.Url = domainResult.Result.Url;
@@ -98,7 +99,7 @@ namespace Suinet.NftProtocol
 
                 if (objectFieldInfo != null)
                 {
-                    var domainResult = await _jsonRpcApiClient.GetDynamicFieldObjectAsync<DisplayDomain>(parentObjectId, objectFieldInfo.Name);
+                    var domainResult = await _jsonRpcApiClient.GetDynamicFieldObjectAsync<DisplayDomain>(parentObjectId, objectFieldInfo.Name, null);
                     if (domainResult != null && domainResult.IsSuccess)
                     {
                         var domain = domainResult.Result;
@@ -114,7 +115,7 @@ namespace Suinet.NftProtocol
 
                 if (objectFieldInfo != null)
                 {
-                    var domainResult = await _jsonRpcApiClient.GetDynamicFieldObjectAsync<AttributesDomain>(parentObjectId, objectFieldInfo.Name);
+                    var domainResult = await _jsonRpcApiClient.GetDynamicFieldObjectAsync<AttributesDomain>(parentObjectId, objectFieldInfo.Name, null);
 
                     if (domainResult != null && domainResult.IsSuccess)
                     {

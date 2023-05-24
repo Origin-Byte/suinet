@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Suinet.Rpc.Types.MoveTypes;
 using System.Collections.Generic;
 
 namespace Suinet.Rpc.Types.Nfts
@@ -12,6 +13,8 @@ namespace Suinet.Rpc.Types.Nfts
         public DisplayData Display { get; set; }
 
         public CapySuiFrenProperties Properties { get; set; }
+
+        public List<SuiFrenAccessory> Accessories { get; set; }
     }
 
     public class CapySuiFrenProperties
@@ -35,4 +38,10 @@ namespace Suinet.Rpc.Types.Nfts
         public List<int> Genes { get; set; }
     }
 
+    public class SuiFrenAccessory
+    {
+        public string Name { get; set; }
+        public UID Id { get; set; }
+        public string Type { get; set; }
+    }
 }

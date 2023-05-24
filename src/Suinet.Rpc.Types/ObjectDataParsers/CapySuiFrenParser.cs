@@ -5,6 +5,14 @@ namespace Suinet.Rpc.Types.ObjectDataParsers
 {
     public class CapySuiFrenParser : IObjectDataParser<CapySuiFren>
     {
+        // TODO support chained / nested dynamic obj parsing
+        //private IObjectDataParser<SuiFrenAccessory> _accessoryParser;
+
+        //public CapySuiFrenParser(IObjectDataParser<SuiFrenAccessory> accessoryParser)
+        //{
+        //    _accessoryParser = accessoryParser;
+        //}
+
         public Regex TypeRegex => new Regex(@"0x[a-fA-F0-9]{64}::\w+::\w+<0x[a-fA-F0-9]{64}::\w+::\w+>");
 
         public CapySuiFren Parse(ObjectData objectData)
@@ -15,7 +23,7 @@ namespace Suinet.Rpc.Types.ObjectDataParsers
                 ObjectId = objectData.ObjectId,
                 Type = objectData.Type,
                 Display = objectData.Display?.Data?.ToObject<DisplayData>(),
-                Properties = moveObjData?.ConvertFieldsTo<CapySuiFrenProperties>()
+                Properties = moveObjData?.ConvertFieldsTo<CapySuiFrenProperties>(),
             };
 
             return fren;

@@ -96,21 +96,25 @@ namespace Suinet.Rpc
 
         }     
 
-        public async Task<RpcResult<T>> GetDynamicFieldObjectAsync<T>(string parentObjectId, string fieldName) where T : class
+        public async Task<RpcResult<T>> GetDynamicFieldObjectAsync<T>(string parentObjectId, DynamicFieldName fieldName, IObjectDataParser<T> parser) where T : class
         {
             var result = await GetDynamicFieldObjectAsync(parentObjectId, fieldName);
 
-            return null;
-            //var dynamicFieldResult = result.Result.Object.Data.Fields.ToObject<DynamicField>();
+            var dynamicFieldObject = new RpcResult<T>
+            {
+                IsSuccess = result.IsSuccess,
+                RawRpcRequest = result.RawRpcRequest,
+                RawRpcResponse = result.RawRpcResponse,
+                ErrorMessage = result.ErrorMessage,
+            };
 
-            //return new RpcResult<T>
-            //{
-            //    IsSuccess = result.IsSuccess,
-            //    RawRpcRequest = result.RawRpcRequest,
-            //    RawRpcResponse = result.RawRpcResponse,
-            //    ErrorMessage = result.ErrorMessage,
-            //    Result = result.IsSuccess ? dynamicFieldResult.Value.Fields.ToObject<T>() : null
-            //};
+
+            if (result.IsSuccess)
+            {
+                dynamicFieldObject.Result = parser.Parse(result.Result.Data);
+            }
+
+            return dynamicFieldObject;
         }
 
     }

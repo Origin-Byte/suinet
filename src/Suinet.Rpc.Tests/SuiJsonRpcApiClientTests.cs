@@ -2,7 +2,6 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Extensions.Logging;
-using Suinet.NftProtocol.Domains;
 using Suinet.Rpc.Client;
 using Suinet.Rpc.Http;
 using Suinet.Rpc.Types;
@@ -24,7 +23,6 @@ namespace Suinet.Rpc.Tests
         private readonly IJsonRpcApiClient _jsonRpcApiClient;
         private readonly ITestOutputHelper _output;
         private readonly IKeyPair _signerKeyPair;
-        //private readonly IKeyPair _signerKeyPair2;
 
         private const string TEST_MNEMONIC = "pen flush vintage detect work resource stand pole execute arrow purpose muffin";
 
@@ -55,6 +53,47 @@ namespace Suinet.Rpc.Tests
 
             var ulongResult = (ulong)(rpcResult.Result);
             ulongResult.Should().BeGreaterThan(0);
+        }
+
+        [Fact]
+        public async Task TestGetDynamicFieldsAsync()
+        {
+            var rpcResult = await _jsonRpcApiClient.GetDynamicFieldsAsync("0xa55b914a7c7715ac9e204f5582ea341934c5d139ad20898db3d397a4edc5b016", null, null);
+
+            rpcResult.Should().NotBeNull();
+            rpcResult.IsSuccess.Should().BeTrue();
+            rpcResult.ErrorMessage.Should().BeNullOrEmpty();
+            rpcResult.Result.Data.Should().HaveCountGreaterThan(0);
+            rpcResult.Result.Data.Should().AllSatisfy(Data => Data.ObjectId.Should().NotBeNullOrWhiteSpace());
+        }
+
+        [Fact]
+        public async Task TestGetDynamicFieldObjectAsync()
+        {
+            var dynamicFieldsRpcResult = await _jsonRpcApiClient.GetDynamicFieldsAsync("0xa55b914a7c7715ac9e204f5582ea341934c5d139ad20898db3d397a4edc5b016", null, null);
+
+            var dynamicFieldObjectRpcResult = await _jsonRpcApiClient.GetDynamicFieldObjectAsync("0xa55b914a7c7715ac9e204f5582ea341934c5d139ad20898db3d397a4edc5b016", dynamicFieldsRpcResult.Result.Data.First().Name);
+
+            dynamicFieldObjectRpcResult.Should().NotBeNull();
+            dynamicFieldObjectRpcResult.IsSuccess.Should().BeTrue();
+            dynamicFieldObjectRpcResult.ErrorMessage.Should().BeNullOrEmpty();
+            dynamicFieldObjectRpcResult.Result.Data.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task TestGetTypedDynamicFieldObjectAsync()
+        {
+            var dynamicFieldsRpcResult = await _jsonRpcApiClient.GetDynamicFieldsAsync("0xa55b914a7c7715ac9e204f5582ea341934c5d139ad20898db3d397a4edc5b016", null, null);
+
+            var dynamicFieldObjectRpcResult = await _jsonRpcApiClient.GetDynamicFieldObjectAsync<SuiFrenAccessory>("0xa55b914a7c7715ac9e204f5582ea341934c5d139ad20898db3d397a4edc5b016", dynamicFieldsRpcResult.Result.Data.First().Name, new SuiFrenAccessoryParser());
+
+            dynamicFieldObjectRpcResult.Should().NotBeNull();
+            dynamicFieldObjectRpcResult.IsSuccess.Should().BeTrue();
+            dynamicFieldObjectRpcResult.ErrorMessage.Should().BeNullOrEmpty();
+            dynamicFieldObjectRpcResult.Result.Id.Should().NotBeNull();
+            dynamicFieldObjectRpcResult.Result.Id.Id.Should().NotBeNull();
+            dynamicFieldObjectRpcResult.Result.Name.Should().NotBeNull();
+            dynamicFieldObjectRpcResult.Result.Type.Should().NotBeNull();
         }
 
         [Fact]
@@ -97,12 +136,12 @@ namespace Suinet.Rpc.Tests
         {
             var address = _signerKeyPair.PublicKeyAsSuiAddress;
 
-            //var objects = await _jsonRpcApiClient.GetObjectsOwnedByAddressAsync<SUICoin>(address);
+            var objects = await _jsonRpcApiClient.GetObjectsOwnedByAddressAsync<SUICoin>(address, new SUICoinParser());
 
-            //objects.IsSuccess.Should().BeTrue();
-            //objects.Result.Should().NotBeNull();
-            //objects.Result.Should().OnlyContain(r => r.Balance > 0);
-            //objects.Result.Should().OnlyContain(r => !string.IsNullOrWhiteSpace(r.Id.Id));
+            objects.IsSuccess.Should().BeTrue();
+            objects.Result.Should().NotBeNull();
+            objects.Result.Should().OnlyContain(r => r.Balance > 0);
+            objects.Result.Should().OnlyContain(r => !string.IsNullOrWhiteSpace(r.Id.Id));
         }
 
         [Fact]
