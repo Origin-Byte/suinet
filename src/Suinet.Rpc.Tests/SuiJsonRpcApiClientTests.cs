@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Math;
 using Serilog;
 using Serilog.Extensions.Logging;
 using Suinet.Rpc.Client;
@@ -240,36 +241,37 @@ namespace Suinet.Rpc.Tests
         public async Task TestMoveCallAsync()
         {
             var signer = _signerKeyPair.PublicKeyAsSuiAddress;
-            var packageObjectId = "0x2";
-            var module = "devnet_nft";
-            var function = "mint";
+            var packageObjectId = "0x116c6862df1e71aa13a88e34b460cfdd46d3fc21bbe64df546faea7251b25dce";
+            var module = "counter";
+            var function = "increment";
             var typeArgs = System.Array.Empty<string>();
-            var args = new object[] { "test nft name", "test movecall nft desc", "ipfs://bafkreibngqhl3gaa7daob4i2vccziay2jjlp435cf66vhono7nrvww53ty" };
-            //var gasObjectId = (await SuiHelper.GetCoinObjectIdsAboveBalancesOwnedByAddressAsync(_jsonRpcApiClient, signer, 1, 2000)).Single();
+            var args = new object[] { "0xab86eab42d95c987c879fb53292fa47210e30190524e07e4cf7aa9930446b538" };
 
-            //var rpcResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, gasObjectId, 2000);
+            var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, System.Numerics.BigInteger.Parse("100000"));
 
-            //rpcResult.Should().NotBeNull();
-            //rpcResult.IsSuccess.Should().BeTrue();
-            //rpcResult.ErrorMessage.Should().BeNullOrEmpty();
-            //rpcResult.Result.TxBytes.Should().NotBeNullOrEmpty();
+
+            var txBytes = moveCallResult.Result.TxBytes;
+
+            moveCallResult.Should().NotBeNull();
+            moveCallResult.IsSuccess.Should().BeTrue();
+            moveCallResult.ErrorMessage.Should().BeNullOrEmpty();
+            moveCallResult.Result.TxBytes.Should().NotBeNullOrEmpty();
         }
 
         [Fact]
         public async Task TestExecuteMoveCallAsync_WithU64Param()
         {
             var signer = _signerKeyPair.PublicKeyAsSuiAddress;
-            var packageObjectId = "0xa69f4325d4da26db7b5299fa149242118debe175";
-            var module = "playerstate_module";
-            var function = "create_playerstate_for_sender";
+            var packageObjectId = "\t0x116c6862df1e71aa13a88e34b460cfdd46d3fc21bbe64df546faea7251b25dce";
+            var module = "counter";
+            var function = "increment";
             var typeArgs = System.Array.Empty<string>();
-            var args = new object[] { DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() };
-            //var gasObjectId = (await SuiHelper.GetCoinObjectIdsAboveBalancesOwnedByAddressAsync(_jsonRpcApiClient, signer, 1, 2000)).Single();
+            var args = new object[] { "0xab86eab42d95c987c879fb53292fa47210e30190524e07e4cf7aa9930446b538" };
 
-            //var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, gasObjectId, 2000);
+            var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, 100000);
 
 
-            //var txBytes = moveCallResult.Result.TxBytes;
+            var txBytes = moveCallResult.Result.TxBytes;
             //var signature = _signerKeyPair.Sign(moveCallResult.Result.TxBytes);
 
             //var txResponse = await _jsonRpcApiClient.ExecuteTransactionAsync(txBytes, SuiSignatureScheme.ED25519, signature, _signerKeyPair2.PublicKeyBase64, SuiExecuteTransactionRequestType.WaitForEffectsCert);

@@ -1,8 +1,8 @@
 ﻿namespace Suinet.Rpc.Types
 {
-    public class SuiTransactionBytes
+    public class TransactionBlockBytes
     {
-        public SuiObjectRef Gas { get; set; }
+        public SuiObjectRef[] Gas { get; set; }
 
         public object[] InputObjects { get; set; }
 

@@ -17,7 +17,7 @@ namespace Suinet.Rpc.Signer
             _keyPair = keyPair;
         }
 
-        public async Task<RpcResult<TransactionBlockResponse>> SignAndExecuteAsync(Func<Task<RpcResult<SuiTransactionBytes>>> method,
+        public async Task<RpcResult<TransactionBlockResponse>> SignAndExecuteAsync(Func<Task<RpcResult<TransactionBlockBytes>>> method,
             SuiExecuteTransactionRequestType txRequestType)
         {
             //var buildTxCallResult = await method();

@@ -2,7 +2,7 @@
 
 namespace Suinet.Rpc.Client
 {
-    public interface IJsonRpcApiClient : IReadApi, IExtendedApi, IGenericReadApi, ICoinQueryApi
+    public interface IJsonRpcApiClient : IReadApi, IExtendedApi, IGenericReadApi, ICoinQueryApi, ITransactionBuilderApi
     {
     }
 }
