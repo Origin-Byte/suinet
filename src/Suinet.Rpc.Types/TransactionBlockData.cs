@@ -1,4 +1,7 @@
-﻿namespace Suinet.Rpc.Types
+﻿using Newtonsoft.Json;
+using Suinet.Rpc.Types.Converters;
+
+namespace Suinet.Rpc.Types
 {
     public class TransactionBlockData
     {
@@ -8,6 +11,7 @@
 
         public string Sender { get; set; }
 
+        [JsonConverter(typeof(TransactionBlockKindJsonConverter))]
         public TransactionBlockKind Transaction { get; set; }
 
         public TransactionBlockData()
