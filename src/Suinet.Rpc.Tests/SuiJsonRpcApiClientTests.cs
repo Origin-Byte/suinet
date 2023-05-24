@@ -6,7 +6,9 @@ using Suinet.NftProtocol.Domains;
 using Suinet.Rpc.Client;
 using Suinet.Rpc.Http;
 using Suinet.Rpc.Types;
-using Suinet.Rpc.Types.MoveTypes;
+using Suinet.Rpc.Types.Coins;
+using Suinet.Rpc.Types.Nfts;
+using Suinet.Rpc.Types.ObjectDataParsers;
 using Suinet.Wallet;
 using System;
 using System.Linq;
@@ -79,7 +81,8 @@ namespace Suinet.Rpc.Tests
             { Filter = filter, Options = options }, null, null);
             var objectId = rpcResult.Result.Data.First(o => o.Data.Type.ToString() == SuiConstants.SUI_COIN_TYPE).Data.ObjectId;
 
-            var obj = await _jsonRpcApiClient.GetObjectAsync<SUICoin>(objectId);
+            var parser = new SUICoinParser();
+            var obj = await _jsonRpcApiClient.GetObjectAsync<SUICoin>(objectId, parser);
 
             obj.IsSuccess.Should().BeTrue();
             obj.Result.Should().NotBeNull();
@@ -137,50 +140,45 @@ namespace Suinet.Rpc.Tests
             //objectResult.IsSuccess.Should().BeTrue();
             //objectsOwnedByBagResult.IsSuccess.Should().BeTrue();
         }
-
         
 
         [Fact]
-        public async Task TestGetCapyAsync()
+        public async Task TestGetAndParseSuiFrenAsync()
         {
-            var objectId = "0x09013dfa4fc275654fe3530b5cbe9274b4381fc0";
-            //var objectResult = await _jsonRpcApiClient.GetObjectAsync(objectId);
-            //var ownedObjectsResult = await _jsonRpcApiClient.GetObjectsOwnedByObjectAsync(objectId);
+            var objectId = "0xa55b914a7c7715ac9e204f5582ea341934c5d139ad20898db3d397a4edc5b016";
+            var objectResult = await _jsonRpcApiClient.GetObjectAsync(objectId, ObjectDataOptions.ShowAll());
 
-            //objectResult.IsSuccess.Should().BeTrue();
-            //ownedObjectsResult.IsSuccess.Should().BeTrue();
+            objectResult.IsSuccess.Should().BeTrue();
+            objectResult.Result.Should().NotBeNull();
 
-            //foreach (var dynamicObjectField in ownedObjectsResult.Result)
-            //{
-            //    var dynamicObjectFieldResult = await _jsonRpcApiClient.GetObjectAsync(dynamicObjectField.ObjectId);
-            //    var dynamicObjectFieldId = dynamicObjectFieldResult.Result.Object.Data.Fields["value"] as string;
+            var frenParser = new CapySuiFrenParser();
+            var fren = frenParser.Parse(objectResult.Result.Data);
 
-            //    var dynamicObjectResult = await _jsonRpcApiClient.GetObjectAsync(dynamicObjectFieldId);
-            //    dynamicObjectResult.IsSuccess.Should().BeTrue();
-            //}
+            fren.Display.Should().NotBeNull();
+            fren.Properties.Should().NotBeNull();
+            fren.Type.Should().NotBeNullOrWhiteSpace();
+            fren.ObjectId.Should().NotBeNullOrWhiteSpace();
         }
 
         [Fact]
-        public async Task TestGetCapyNftsOwnedByAddressAsync()
+        public async Task TestGetTypedSuiFrenAsync()
         {
-            var address = "0xa106c6d490ff692411bc6fd2ca59b5804adcac04";
-            //var ownedObjectsResult = await _jsonRpcApiClient.GetObjectsOwnedByAddressAsync<CapyNft>(address);
+            var objectId = "0xa55b914a7c7715ac9e204f5582ea341934c5d139ad20898db3d397a4edc5b016";
+            var objectResult = await _jsonRpcApiClient.GetObjectAsync(objectId, ObjectDataOptions.ShowAll());
 
-            //ownedObjectsResult.IsSuccess.Should().BeTrue();
+            objectResult.IsSuccess.Should().BeTrue();
+            objectResult.Result.Should().NotBeNull();
+        }
+
+
+        [Fact]
+        public async Task TestGetTypedSuiFrenNftsOwnedByAddressAsync()
+        {
+            var address = "0x770f28e2ee8be9c1f5eb5edbe3612f9e13fc5b721b4f6f74b697952b1b0eb836";
+            var ownedObjectsResult = await _jsonRpcApiClient.GetObjectsOwnedByAddressAsync<CapySuiFren>(address, new CapySuiFrenParser(), null, null);
+
+            ownedObjectsResult.IsSuccess.Should().BeTrue();
             
-        }
-
-        [Fact]
-        public async Task TestGenericGetObjectsAsync2()
-        {
-            var address = _signerKeyPair.PublicKeyAsSuiAddress;
-
-            //var objects = await _jsonRpcApiClient.GetObjectsOwnedByAddressAsync<DevNetNft>(address);
-
-            //objects.IsSuccess.Should().BeTrue();
-            //objects.Result.Should().NotBeEmpty();
-            //objects.Result.Should().OnlyContain(r => !string.IsNullOrWhiteSpace(r.Name));
-            //objects.Result.Should().OnlyContain(r => !string.IsNullOrWhiteSpace(r.Url));
         }
 
         [Fact]

@@ -36,6 +36,14 @@ namespace Suinet.Rpc.Api
         Task<RpcResult<SuiObjectResponse>> GetObjectAsync(string objectId, ObjectDataOptions options);
 
         /// <summary>
+        /// Return the object data for a list of objects
+        /// </summary>
+        /// <param name="objectIds"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        Task<RpcResult<IEnumerable<SuiObjectResponse>>> GetObjectsAsync(IEnumerable<string> objectIds, ObjectDataOptions options);
+
+        /// <summary>
         /// Return a checkpoint
         /// </summary>
         /// <param name="id">Checkpoint identifier, can use either checkpoint digest, or checkpoint sequence number as input.</param>

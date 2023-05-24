@@ -36,35 +36,39 @@ namespace Suinet.NftProtocol
         private async Task<RpcResult<TransactionBlockResponse>> ExecuteTxAsync(IMoveCallTransactionBuilder txBuilder, string gasObjectId = null)
         {
             //var gas = gasObjectId ?? (await SuiHelper.GetCoinObjectIdsAboveBalancesOwnedByAddressAsync(_jsonRpcApiClient, txBuilder.Signer))[0];
-            return null;
+            throw new NotImplementedException();
+
             //return await _signer.SignAndExecuteMoveCallAsync(txBuilder.BuildMoveCallTransaction(gas));
         }
 
         public async Task<RpcResult<ArtNft>> GetArtNftAsync(string objectId, params Type[] withDomains)
         {
-            var nftResult = await _jsonRpcApiClient.GetObjectAsync<ArtNft>(objectId);
+            throw new NotImplementedException();
+            //var nftResult = await _jsonRpcApiClient.GetObjectAsync<ArtNft>(objectId);
 
-            if (nftResult == null || !nftResult.IsSuccess) return nftResult;
+            //if (nftResult == null || !nftResult.IsSuccess) return nftResult;
 
-            await LoadDomainsForArtNftAsync(nftResult.Result, withDomains);
+            //await LoadDomainsForArtNftAsync(nftResult.Result, withDomains);
 
-            return nftResult;
+            //return nftResult;
         }
 
 
         public async Task<RpcResult<IEnumerable<ArtNft>>> GetArtNftsOwnedByAddressAsync(string address, params Type[] withDomains)
         {
-            var nftsResult = await _jsonRpcApiClient.GetObjectsOwnedByAddressAsync<ArtNft>(address, null, null);
+            throw new NotImplementedException();
 
-            if (nftsResult == null || !nftsResult.IsSuccess) return nftsResult;
+            //var nftsResult = await _jsonRpcApiClient.GetObjectsOwnedByAddressAsync<ArtNft>(address, null, null);
 
-            // TODO test is Task.WhenAll works correctly on webgl
-            foreach (var nft in nftsResult.Result)
-            {
-                await LoadDomainsForArtNftAsync(nft, withDomains);
-            }
+            //if (nftsResult == null || !nftsResult.IsSuccess) return nftsResult;
 
-            return nftsResult;
+            //// TODO test is Task.WhenAll works correctly on webgl
+            //foreach (var nft in nftsResult.Result)
+            //{
+            //    await LoadDomainsForArtNftAsync(nft, withDomains);
+            //}
+
+            //return nftsResult;
         }
 
         private async Task LoadDomainsForArtNftAsync(ArtNft nft, params Type[] withDomains)

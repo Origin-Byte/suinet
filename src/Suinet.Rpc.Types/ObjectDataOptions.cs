@@ -24,5 +24,34 @@ namespace Suinet.Rpc.Types
 
         [JsonProperty("showType")]
         public bool ShowType { get; set; } = false;
+
+        // Factory
+        public static ObjectDataOptions ShowAll()
+        {
+            return new ObjectDataOptions
+            {
+                ShowBcs = true,
+                ShowContent = true,
+                ShowDisplay = true,
+                ShowOwner = true,
+                ShowPreviousTransaction = true,
+                ShowStorageRebate = true,
+                ShowType = true
+            };
+        }
+
+        public static ObjectDataOptions ShowNone()
+        {
+            return new ObjectDataOptions
+            {
+                ShowBcs = false,
+                ShowContent = false,
+                ShowDisplay = false,
+                ShowOwner = false,
+                ShowPreviousTransaction = false,
+                ShowStorageRebate = false,
+                ShowType = false
+            };
+        }
     }
 }

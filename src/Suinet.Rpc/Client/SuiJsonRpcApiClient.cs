@@ -137,9 +137,9 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public async Task<RpcResult<SuiObjectResponse>> GetObjectsAsync(IEnumerable<string> objectIds, ObjectDataOptions options)
+        public async Task<RpcResult<IEnumerable<SuiObjectResponse>>> GetObjectsAsync(IEnumerable<string> objectIds, ObjectDataOptions options)
         {
-            return await SendRpcRequestAsync<SuiObjectResponse>("sui_multiGetObjects", ArgumentBuilder.BuildArguments(objectIds, options));
+            return await SendRpcRequestAsync<IEnumerable<SuiObjectResponse>>("sui_multiGetObjects", ArgumentBuilder.BuildArguments(objectIds, options));
         }
 
         public async Task<RpcResult<SuiObjectResponse>> GetObjectAsync(string objectId, ObjectDataOptions options)

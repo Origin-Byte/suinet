@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 
-namespace Suinet.Rpc.Types.Converters
+namespace Suinet.Rpc.Types.JsonConverters
 {
     public class SuiObjectReadConverter : JsonConverter<SuiObjectRead>
     {

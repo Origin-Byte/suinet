@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Suinet.Rpc.Types.Converters
+namespace Suinet.Rpc.Types.JsonConverters
 {
     public class MoveTypeConverter : JsonConverter<MoveType>
     {

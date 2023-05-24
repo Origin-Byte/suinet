@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Suinet.Rpc.Types.Converters
+namespace Suinet.Rpc.Types.JsonConverters
 {
     public class SuiAllEventQueryConverter : JsonConverter<SuiAllEventQuery>
     {
