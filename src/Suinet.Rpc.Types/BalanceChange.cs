@@ -1,6 +1,6 @@
 ﻿namespace Suinet.Rpc.Types
 {
-    public class SuiBalanceChange
+    public class BalanceChange
     {
         public string Amount { get; set; }
 

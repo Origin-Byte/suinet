@@ -1,6 +1,6 @@
 ﻿namespace Suinet.Rpc.Types
 {
-    public enum SuiObjectChangeType
+    public enum ObjectChangeType
     {
         Published,
         Transferred,

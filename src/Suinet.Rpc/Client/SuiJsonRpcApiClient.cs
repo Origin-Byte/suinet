@@ -127,9 +127,9 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<Page_for_DynamicFieldInfo_and_ObjectID>("sui_getDynamicFields", ArgumentBuilder.BuildArguments(objectId));
         }
 
-        public Task<RpcResult<TransactionBlockResponse>> GetTransactionBlockAsync(string digest, TransactionBlockResponseOptions options)
+        public async Task<RpcResult<TransactionBlockResponse>> GetTransactionBlockAsync(string digest, TransactionBlockResponseOptions options)
         {
-            throw new NotImplementedException();
+            return await SendRpcRequestAsync<TransactionBlockResponse>("sui_getTransactionBlock", ArgumentBuilder.BuildArguments(digest, options));
         }
 
         public Task<RpcResult<TransactionBlockResponse[]>> GetTransactionBlocksAsync(IEnumerable<string> digests, TransactionBlockResponseOptions options)

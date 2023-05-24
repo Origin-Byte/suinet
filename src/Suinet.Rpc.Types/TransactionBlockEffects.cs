@@ -16,7 +16,7 @@ namespace Suinet.Rpc.Types
         public List<TransactionBlockEffectsModifiedAtVersions> ModifiedAtVersions { get; set; }
         public List<SuiOwnedObjectRef> Mutated { get; set; }
         public List<SuiObjectRef> SharedObjects { get; set; }
-        public SuiExecutionStatus Status { get; set; }
+        public ExecutionStatusResponse Status { get; set; }
         public string TransactionDigest { get; set; }
         public List<SuiOwnedObjectRef> Unwrapped { get; set; }
         public List<SuiObjectRef> UnwrappedThenDeleted { get; set; }

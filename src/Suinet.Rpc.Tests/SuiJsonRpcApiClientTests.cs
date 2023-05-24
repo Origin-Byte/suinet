@@ -97,6 +97,18 @@ namespace Suinet.Rpc.Tests
         }
 
         [Fact]
+        public async Task TestGetTransactionBlockAsync()
+        {
+            var digest = "GMwsnGNNce8Qdrb6LcgnMZvSPYCv6iL7JmAA32iykc2y";
+            var rpcResult = await _jsonRpcApiClient.GetTransactionBlockAsync(digest, TransactionBlockResponseOptions.ShowAll());
+
+            rpcResult.Should().NotBeNull();
+            rpcResult.IsSuccess.Should().BeTrue();
+            rpcResult.ErrorMessage.Should().BeNullOrEmpty();
+            rpcResult.Result.BalanceChanges.Should().HaveCountGreaterThan(0);
+        }
+
+        [Fact]
         public async Task TestGetObjectsOwnedByAddressAsync()
         {
             var address = _signerKeyPair.PublicKeyAsSuiAddress;
