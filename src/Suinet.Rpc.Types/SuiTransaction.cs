@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using Suinet.Rpc.Types.JsonConverters;
 using Suinet.Rpc.Types.MoveTypes;
 
 namespace Suinet.Rpc.Types
@@ -16,6 +16,7 @@ namespace Suinet.Rpc.Types
         MakeMoveVec
     }
 
+    [JsonConverter(typeof(SuiTransactionConverter))]
     public abstract class SuiTransaction
     {
         public SuiTransactionType TransactionType { get; set; }

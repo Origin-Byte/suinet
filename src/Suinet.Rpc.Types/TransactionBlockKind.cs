@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using Newtonsoft.Json;
 using Suinet.Rpc.Types.MoveTypes;
 
 namespace Suinet.Rpc.Types
@@ -55,7 +56,10 @@ namespace Suinet.Rpc.Types
 
     public class ProgrammableTransactionBlockKind : TransactionBlockKind
     {
+        [JsonProperty("inputs")]
         public List<SuiCallArg> Inputs { get; set; }
+
+        [JsonProperty("transactions")]
         public List<SuiTransaction> Transactions { get; set; }
 
         public ProgrammableTransactionBlockKind()

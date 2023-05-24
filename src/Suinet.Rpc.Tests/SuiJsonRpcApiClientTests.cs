@@ -105,7 +105,11 @@ namespace Suinet.Rpc.Tests
             rpcResult.Should().NotBeNull();
             rpcResult.IsSuccess.Should().BeTrue();
             rpcResult.ErrorMessage.Should().BeNullOrEmpty();
-            rpcResult.Result.BalanceChanges.Should().HaveCountGreaterThan(0);
+            rpcResult.Result.Transaction.Should().NotBeNull();
+            rpcResult.Result.Transaction.Data.Transaction.Should().NotBeNull();
+
+            var txes = rpcResult.Result.Transaction.Data.Transaction as ProgrammableTransactionBlockKind;
+            txes.Transactions.Should().HaveCountGreaterThan(0); 
         }
 
         [Fact]

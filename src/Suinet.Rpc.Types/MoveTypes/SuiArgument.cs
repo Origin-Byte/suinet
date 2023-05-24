@@ -1,4 +1,7 @@
-﻿namespace Suinet.Rpc.Types.MoveTypes
+﻿using Newtonsoft.Json;
+using Suinet.Rpc.Types.JsonConverters;
+
+namespace Suinet.Rpc.Types.MoveTypes
 {
     public enum SuiArgumentType
     {
@@ -7,7 +10,8 @@
         Result,
         NestedResult
     }
-
+    
+    [JsonConverter(typeof(SuiArgumentConverter))]
     public abstract class SuiArgument
     {
         public SuiArgumentType ArgumentType { get; set; }
