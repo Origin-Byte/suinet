@@ -1,11 +1,14 @@
-﻿using Suinet.Rpc.Api;
+﻿using Chaos.NaCl;
+using Suinet.Rpc.Api;
 using Suinet.Rpc.Client;
 using Suinet.Rpc.Http;
 using Suinet.Rpc.JsonRpc;
 using Suinet.Rpc.Types;
 using Suinet.Rpc.Types.MoveTypes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -35,29 +38,6 @@ namespace Suinet.Rpc
         {
             var request = BuildRequest<T>(method, @params);
             return await _rpcClient.SendAsync<T>(request);
-        }
-
-        //public async Task<RpcResult<SuiExecuteTransactionResponse>> ExecuteTransactionAsync(string txBytes, SuiSignatureScheme sigScheme, string signature, string pubKey, SuiExecuteTransactionRequestType suiExecuteTransactionRequestType)
-        //{
-        //    // Todo refact this logic from here
-        //    var signatureBytes = CryptoBytes.FromBase64String(signature);
-        //    var publicKeyBytes = CryptoBytes.FromBase64String(pubKey);
-        //    var finalSignatureBytes = new byte[signatureBytes.Length + 1 + publicKeyBytes.Length];
-
-        //    finalSignatureBytes[0] = SignatureSchemeToByte(sigScheme);
-        //    Array.Copy(signatureBytes, 0, finalSignatureBytes, 1, signatureBytes.Length);
-        //    Array.Copy(publicKeyBytes, 0, finalSignatureBytes, signatureBytes.Length + 1, publicKeyBytes.Length);
-
-        //    var serializedSignature = CryptoBytes.ToBase64String(finalSignatureBytes);
-
-        //    return await SendRpcRequestAsync<SuiExecuteTransactionResponse>("sui_executeTransaction", ArgumentBuilder.BuildArguments(txBytes, serializedSignature, suiExecuteTransactionRequestType));
-        //}
-
-        byte SignatureSchemeToByte(SuiSignatureScheme suiSignatureScheme)
-        {
-            if (suiSignatureScheme == SuiSignatureScheme.ED25519) return 0;
-
-            return 1;
         }
 
         public async Task<RpcResult<SuiObjectResponse>> GetDynamicFieldObjectAsync(string parentObjectId, DynamicFieldName fieldName)
@@ -170,11 +150,6 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<Page_for_DynamicFieldInfo_and_ObjectID>> GetDynamicFieldsAsync(string parentObjectId, string cursor, ulong limit)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<RpcResult<Page_for_SuiObjectResponse_and_ObjectID>> GetOwnedObjectsAsync(string address, ObjectResponseQuery query, string cursor, ulong? limit)
         {
             return await SendRpcRequestAsync<Page_for_SuiObjectResponse_and_ObjectID>("suix_getOwnedObjects", ArgumentBuilder.BuildArguments(address, query, cursor, limit));
@@ -200,9 +175,29 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public Task<RpcResult<TransactionBlockResponse>> ExecuteTransactionBlockAsync(string txBytes, IEnumerable<string> signatures, SuiExecuteTransactionRequestType requestType, TransactionBlockResponseOptions options)
+        public async Task<RpcResult<TransactionBlockResponse>> ExecuteTransactionBlockAsync(string txBytes, IEnumerable<string> signatures, IEnumerable<string> pubKeys, TransactionBlockResponseOptions options, ExecuteTransactionRequestType requestType)
         {
-            throw new NotImplementedException();
+            var serializedSignatures = new List<string>();
+
+            //for(int i = 0; i < signatures.Count(); i++)
+            //{
+            //    var signature = signatures.ElementAt(i);
+            //    var pubKey = pubKeys.ElementAt(i);
+
+            //    // Todo refact this logic from here
+            //    var signatureBytes = CryptoBytes.FromBase64String(signature);
+            //    var publicKeyBytes = CryptoBytes.FromBase64String(pubKey);
+            //    var finalSignatureBytes = new byte[signatureBytes.Length + 1 + publicKeyBytes.Length];
+
+            //    finalSignatureBytes[0] = SignatureSchemeToByte(SuiSignatureScheme.ED25519);
+            //    Array.Copy(signatureBytes, 0, finalSignatureBytes, 1, signatureBytes.Length);
+            //    Array.Copy(publicKeyBytes, 0, finalSignatureBytes, signatureBytes.Length + 1, publicKeyBytes.Length);
+            //    var serializedSignature = CryptoBytes.ToBase64String(finalSignatureBytes);
+
+            //    serializedSignatures.Add(serializedSignature);
+            //}
+
+            return await SendRpcRequestAsync<TransactionBlockResponse>("sui_executeTransactionBlock", ArgumentBuilder.BuildArguments(txBytes, serializedSignatures, options, requestType));
         }
 
         public Task<RpcResult<MoveFunctionArgType[]>> GetMoveFunctionArgTypesAsync(string packageId, string module, string function)

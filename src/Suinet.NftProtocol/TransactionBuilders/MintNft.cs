@@ -26,7 +26,7 @@ namespace Suinet.NftProtocol.TransactionBuilders
 
         public string Recipient { get; set; }
 
-        public MoveCallTransaction BuildMoveCallTransaction(string gas, ulong gasBudget = 4000, SuiExecuteTransactionRequestType RequestType = SuiExecuteTransactionRequestType.WaitForEffectsCert)
+        public MoveCallTransaction BuildMoveCallTransaction(string gas, ulong gasBudget = 4000, ExecuteTransactionRequestType RequestType = ExecuteTransactionRequestType.WaitForEffectsCert)
         {
             return new MoveCallTransaction()
             {

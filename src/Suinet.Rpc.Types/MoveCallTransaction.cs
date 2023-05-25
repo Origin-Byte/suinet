@@ -13,6 +13,6 @@ namespace Suinet.Rpc.Types
         public IEnumerable<object> Arguments { get; set; }
         public string Gas { get; set; }
         public BigInteger GasBudget { get; set; }
-        public SuiExecuteTransactionRequestType RequestType { get; set; }
+        public ExecuteTransactionRequestType RequestType { get; set; }
     }
 }

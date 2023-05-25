@@ -49,11 +49,15 @@ namespace Suinet.Wallet
             return CryptoBytes.ToBase64String(Sign(CryptoBytes.FromBase64String(base64message)));
         }
 
-
         public byte[] Sign(byte[] message)
         {
             var signature = new byte[64];
+            Ed25519.Sign(new ArraySegment<byte>(signature), new ArraySegment<byte>(message), new ArraySegment<byte>(PrivateKey));
+            return signature;
+        }
 
+        public static byte[] GetMessageWithIntent(byte[] message)
+        {
             // See: sui/crates/sui-types/src/intent.rs 
             // This is currently hardcoded with [IntentScope::TransactionData = 0, Version::V0 = 0, AppId::Sui = 0]
             var INTENT_BYTES = new byte[] { 0, 0, 0 };
@@ -61,9 +65,12 @@ namespace Suinet.Wallet
             var messageWithIntent = new byte[INTENT_BYTES.Length + message.Length];
             Buffer.BlockCopy(INTENT_BYTES, 0, messageWithIntent, 0, INTENT_BYTES.Length);
             Buffer.BlockCopy(message, 0, messageWithIntent, INTENT_BYTES.Length, message.Length);
+            return messageWithIntent;
+        }
 
-            Ed25519.Sign(new ArraySegment<byte>(signature), new ArraySegment<byte>(messageWithIntent), new ArraySegment<byte>(PrivateKey));
-            return signature;
+        public SignatureScheme GetKeyScheme()
+        {
+            return SignatureScheme.Ed25519;
         }
     }
 

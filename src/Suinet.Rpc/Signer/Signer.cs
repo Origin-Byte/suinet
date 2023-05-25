@@ -18,7 +18,7 @@ namespace Suinet.Rpc.Signer
         }
 
         public async Task<RpcResult<TransactionBlockResponse>> SignAndExecuteAsync(Func<Task<RpcResult<TransactionBlockBytes>>> method,
-            SuiExecuteTransactionRequestType txRequestType)
+            ExecuteTransactionRequestType txRequestType)
         {
             //var buildTxCallResult = await method();
             //if (buildTxCallResult.IsSuccess)

@@ -247,7 +247,7 @@ namespace Suinet.Rpc.Tests
             var typeArgs = System.Array.Empty<string>();
             var args = new object[] { "0xab86eab42d95c987c879fb53292fa47210e30190524e07e4cf7aa9930446b538" };
 
-            var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, System.Numerics.BigInteger.Parse("100000"));
+            var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, 100000);
 
 
             var txBytes = moveCallResult.Result.TxBytes;
@@ -259,10 +259,10 @@ namespace Suinet.Rpc.Tests
         }
 
         [Fact]
-        public async Task TestExecuteMoveCallAsync_WithU64Param()
+        public async Task TestExecuteMoveCallAsync()
         {
             var signer = _signerKeyPair.PublicKeyAsSuiAddress;
-            var packageObjectId = "\t0x116c6862df1e71aa13a88e34b460cfdd46d3fc21bbe64df546faea7251b25dce";
+            var packageObjectId = "0x116c6862df1e71aa13a88e34b460cfdd46d3fc21bbe64df546faea7251b25dce";
             var module = "counter";
             var function = "increment";
             var typeArgs = System.Array.Empty<string>();
@@ -270,77 +270,18 @@ namespace Suinet.Rpc.Tests
 
             var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, 100000);
 
-
             var txBytes = moveCallResult.Result.TxBytes;
-            //var signature = _signerKeyPair.Sign(moveCallResult.Result.TxBytes);
+            var signature = _signerKeyPair.Sign(txBytes);
 
-            //var txResponse = await _jsonRpcApiClient.ExecuteTransactionAsync(txBytes, SuiSignatureScheme.ED25519, signature, _signerKeyPair2.PublicKeyBase64, SuiExecuteTransactionRequestType.WaitForEffectsCert);
+            var txResponse = await _jsonRpcApiClient.ExecuteTransactionBlockAsync(txBytes, new[] { signature }, new[] { _signerKeyPair.PublicKeyBase64 },TransactionBlockResponseOptions.ShowAll(), ExecuteTransactionRequestType.WaitForLocalExecution);
 
-            //txResponse.Should().NotBeNull();
-            //txResponse.IsSuccess.Should().BeTrue();
-            //txResponse.ErrorMessage.Should().BeNullOrEmpty();
+            txResponse.Should().NotBeNull();
+            txResponse.IsSuccess.Should().BeTrue();
+            txResponse.ErrorMessage.Should().BeNullOrEmpty();
 
-            //var effects = txResponse.Result.Effects;
-            //effects.Should().NotBeNull();
-        }
-        [Fact]
-        public async Task TestExecuteTransactionAsync_WaitForLocalExecution()
-        {
-            var signer = _signerKeyPair.PublicKeyAsSuiAddress;
-            var packageObjectId = "0x2";
-            var module = "devnet_nft";
-            var function = "mint";
-            var typeArgs = System.Array.Empty<string>();
-            var args = new object[] { "test nft name", "test executetx nft desc", "ipfs://bafkreibngqhl3gaa7daob4i2vccziay2jjlp435cf66vhono7nrvww53ty" };
-            //var gasObjectId = (await SuiHelper.GetCoinObjectIdsAboveBalancesOwnedByAddressAsync(_jsonRpcApiClient, signer, 1, 2000)).Single();
-
-            //var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, gasObjectId, 2000);
-
-
-            //var txBytes = moveCallResult.Result.TxBytes;
-            //var signature = _signerKeyPair.Sign(moveCallResult.Result.TxBytes);
-
-            //var txResponse = await _jsonRpcApiClient.ExecuteTransactionAsync(txBytes, SuiSignatureScheme.ED25519, signature, _signerKeyPair2.PublicKeyBase64, SuiExecuteTransactionRequestType.WaitForLocalExecution);
-
-            //txResponse.Should().NotBeNull();
-            //txResponse.IsSuccess.Should().BeTrue();
-            //txResponse.ErrorMessage.Should().BeNullOrEmpty();
-
-            //var effects = txResponse.Result.Effects;
-            //effects.Should().NotBeNull();
-            //txResponse.Result.ConfirmedLocalExecution.Should().BeTrue();
-        }
-
-        [Fact]
-        public async Task TestExecuteTransactionAsync_WaitForEffectsCert()
-        {
-            var signer = _signerKeyPair.PublicKeyAsSuiAddress;
-            var packageObjectId = "0x2";
-            var module = "devnet_nft";
-            var function = "mint";
-            var typeArgs = System.Array.Empty<string>();
-            var args = new object[] { "test nft name", "test executetx nft desc", "ipfs://bafkreibngqhl3gaa7daob4i2vccziay2jjlp435cf66vhono7nrvww53ty" };
-            //var gasObjectId = (await SuiHelper.GetCoinObjectIdsAboveBalancesOwnedByAddressAsync(_jsonRpcApiClient, signer, 1, 2000)).Single();
-
-            //var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, gasObjectId, 2000);
-
-            //var txBytes = moveCallResult.Result.TxBytes;
-            //var signature = _signerKeyPair.Sign(moveCallResult.Result.TxBytes);
-
-            //var txResponse = await _jsonRpcApiClient.ExecuteTransactionAsync(txBytes, SuiSignatureScheme.ED25519, signature, _signerKeyPair2.PublicKeyBase64, SuiExecuteTransactionRequestType.WaitForEffectsCert);
-
-            //txResponse.Should().NotBeNull();
-            //txResponse.IsSuccess.Should().BeTrue();
-            //txResponse.ErrorMessage.Should().BeNullOrEmpty();
-            //txResponse.Result.ExecuteTransactionRequestType.Should().Be(SuiExecuteTransactionRequestType.WaitForEffectsCert);
-
-            //var effects = txResponse.Result.Effects;
-            //effects.Should().NotBeNull();
-            //txResponse.Result!.Certificate.Should().NotBeNull();
-            //effects.Should().NotBeNull();
-            //effects.Effects.Status.Status.Should().Be(SuiExecutionStatus.Success);
-            //effects.Effects.Created.Should().HaveCount(1);
-        }
+            var effects = txResponse.Result.Effects;
+            effects.Should().NotBeNull();
+        }      
 
         [Fact]
         public async Task TestCreateSharedCounter()
@@ -470,14 +411,6 @@ namespace Suinet.Rpc.Tests
             //var effects = txResponse.Result.Effects;
             //effects.Should().NotBeNull();
             //txResponse.Result!.Certificate.Should().NotBeNull();
-        }
-
-        [Fact]
-        public async Task TestGetDynamicFields()
-        {
-            var id = "0xa7a27550febd72c9bc0928a013534be76ab8a1c9";
-            //var result = await _jsonRpcApiClient.GetDynamicFieldsAsync(id);
-            //result.IsSuccess.Should().BeTrue();
         }
     }
 }

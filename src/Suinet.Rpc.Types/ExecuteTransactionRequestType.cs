@@ -1,6 +1,6 @@
 ﻿namespace Suinet.Rpc.Types
 {
-    public enum SuiExecuteTransactionRequestType
+    public enum ExecuteTransactionRequestType
     {
         None = 0,
         WaitForEffectsCert = 1,
