@@ -47,7 +47,7 @@ namespace Suinet.Wallet.Tests
         public void TestSign(string mnemonic, string pubKey, string address, string expectedSignatureBase64)
         {
             var txBytes = CryptoBytes.FromBase64String(TX_BYTES);
-            var intentMessage = Ed25519KeyPair.GetMessageWithIntent(txBytes);
+            var intentMessage = Intent.GetMessageWithIntent(txBytes);
 
             var digest = HashHelper.ComputeBlake2bHash(intentMessage);
             var digestB64 = CryptoBytes.ToBase64String(digest);

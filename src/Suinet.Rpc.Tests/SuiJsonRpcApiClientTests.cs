@@ -249,9 +249,6 @@ namespace Suinet.Rpc.Tests
 
             var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, 100000);
 
-
-            var txBytes = moveCallResult.Result.TxBytes;
-
             moveCallResult.Should().NotBeNull();
             moveCallResult.IsSuccess.Should().BeTrue();
             moveCallResult.ErrorMessage.Should().BeNullOrEmpty();
@@ -268,12 +265,13 @@ namespace Suinet.Rpc.Tests
             var typeArgs = System.Array.Empty<string>();
             var args = new object[] { "0xab86eab42d95c987c879fb53292fa47210e30190524e07e4cf7aa9930446b538" };
 
-            var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, 100000);
+            var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(signer, packageObjectId, module, function, typeArgs, args, 10000000);
 
             var txBytes = moveCallResult.Result.TxBytes;
-            var signature = _signerKeyPair.Sign(txBytes);
-
-            var txResponse = await _jsonRpcApiClient.ExecuteTransactionBlockAsync(txBytes, new[] { signature }, new[] { _signerKeyPair.PublicKeyBase64 },TransactionBlockResponseOptions.ShowAll(), ExecuteTransactionRequestType.WaitForLocalExecution);
+            var rawSigner = new RawSigner(_signerKeyPair);
+            var signature = rawSigner.SignData(Intent.GetMessageWithIntent(txBytes));
+          
+            var txResponse = await _jsonRpcApiClient.ExecuteTransactionBlockAsync(txBytes, new[] { signature.Value }, TransactionBlockResponseOptions.ShowAll(), ExecuteTransactionRequestType.WaitForLocalExecution);
 
             txResponse.Should().NotBeNull();
             txResponse.IsSuccess.Should().BeTrue();

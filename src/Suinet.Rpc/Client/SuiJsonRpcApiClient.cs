@@ -175,28 +175,8 @@ namespace Suinet.Rpc
             throw new NotImplementedException();
         }
 
-        public async Task<RpcResult<TransactionBlockResponse>> ExecuteTransactionBlockAsync(string txBytes, IEnumerable<string> signatures, IEnumerable<string> pubKeys, TransactionBlockResponseOptions options, ExecuteTransactionRequestType requestType)
+        public async Task<RpcResult<TransactionBlockResponse>> ExecuteTransactionBlockAsync(string txBytes, IEnumerable<string> serializedSignatures, TransactionBlockResponseOptions options, ExecuteTransactionRequestType requestType)
         {
-            var serializedSignatures = new List<string>();
-
-            //for(int i = 0; i < signatures.Count(); i++)
-            //{
-            //    var signature = signatures.ElementAt(i);
-            //    var pubKey = pubKeys.ElementAt(i);
-
-            //    // Todo refact this logic from here
-            //    var signatureBytes = CryptoBytes.FromBase64String(signature);
-            //    var publicKeyBytes = CryptoBytes.FromBase64String(pubKey);
-            //    var finalSignatureBytes = new byte[signatureBytes.Length + 1 + publicKeyBytes.Length];
-
-            //    finalSignatureBytes[0] = SignatureSchemeToByte(SuiSignatureScheme.ED25519);
-            //    Array.Copy(signatureBytes, 0, finalSignatureBytes, 1, signatureBytes.Length);
-            //    Array.Copy(publicKeyBytes, 0, finalSignatureBytes, signatureBytes.Length + 1, publicKeyBytes.Length);
-            //    var serializedSignature = CryptoBytes.ToBase64String(finalSignatureBytes);
-
-            //    serializedSignatures.Add(serializedSignature);
-            //}
-
             return await SendRpcRequestAsync<TransactionBlockResponse>("sui_executeTransactionBlock", ArgumentBuilder.BuildArguments(txBytes, serializedSignatures, options, requestType));
         }
 

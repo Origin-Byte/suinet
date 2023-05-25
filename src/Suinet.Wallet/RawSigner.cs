@@ -16,13 +16,16 @@ namespace Suinet.Wallet
             return _keypair.PublicKeyAsSuiAddress;
         }
 
+        public SerializedSignature SignMessage(string message)
+        {
+            return SignData(CryptoBytes.FromBase64String(message));
+        }
+
         public SerializedSignature SignData(byte[] data)
         {
             var digest = HashHelper.ComputeBlake2bHash(data);
             var signature = _keypair.Sign(digest);
             var signatureScheme = _keypair.GetKeyScheme();
-
-            var sigB64 = CryptoBytes.ToBase64String(signature);
 
             return SignatureUtils.ToSerializedSignature(new SignaturePubkeyPair
             {
