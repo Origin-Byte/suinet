@@ -13,7 +13,7 @@ namespace Suinet.Rpc.Api
         /// <param name="limit">maximum number of items per page</param>
         /// <param name="query result ordering"></param>
         /// <returns></returns>
-        Task<RpcResult<Page_for_Event_and_EventID>> QueryEventsAsync(ISuiEventQuery query, SuiEventId cursor, ulong limit, bool descendingOrder = false);
+        Task<RpcResult<Page_for_Event_and_EventID>> QueryEventsAsync(EventFilter query, EventId cursor, ulong? limit, bool descendingOrder = false);
 
         /// <summary>
         /// Return the list of dynamic field objects owned by an object.
@@ -51,7 +51,7 @@ namespace Suinet.Rpc.Api
         /// <param name="limit">Maximum item returned per page, default to QUERY_MAX_RESULT_LIMIT if not specified.</param>
         /// <param name="descendingOrder">Query result ordering, default to false (ascending order), oldest record first.</param>
         /// <returns></returns>
-        Task<RpcResult<SuiPage_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(TransactionBlockResponseQuery query, SuiEventId cursor, ulong? limit, bool? descendingOrder = false);
+        Task<RpcResult<SuiPage_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(TransactionBlockResponseQuery query, EventId cursor, ulong? limit, bool? descendingOrder = false);
 
         /// <summary>
         /// Return the resolved address given resolver and name

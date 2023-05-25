@@ -310,55 +310,12 @@ namespace Suinet.Rpc.Tests
         [Fact]
         public async Task TestQueryEventsBySender()
         {
-            var query = new SuiSenderEventQuery()
+            var query = new SenderEventFilter()
             {
-                Sender = "0x1a4f2b04e99311b0ff8228cf12735402f6618d7be0f0b320364339baf03e49df"
+                Sender = _signerKeyPair.PublicKeyAsSuiAddress
             };
             var objects = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10);
             objects.IsSuccess.Should().BeTrue();
-        }
-
-        [Fact]
-        public async Task TestQueryMoveModuleEvents()
-        {
-            var query = new SuiMoveModuleEventQuery()
-            {
-                MoveModule = new SuiMoveModuleEventQuery.SuiMoveModule()
-                {
-                    Module = "access_policy",
-                    Package = "0x7f37d6f86facc20063f3e19b95ac84d973ac2cfd64406c561c26921a57b578b2"
-                }
-            };
-
-            var rpcResult = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10, true);
-
-            rpcResult.IsSuccess.Should().BeTrue();
-        }
-
-        [Fact]
-        public async Task TestGetMoveEvents()
-        {
-            var query = new SuiMoveEventEventQuery()
-            {
-                MoveEvent = "0x2::devnet_nft::MintNFTEvent"
-            };
-            var objects = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10);
-            objects.IsSuccess.Should().BeTrue();
-        }
-
-        [Fact]
-        public async Task TestGetMoveEventsWithCursor()
-        {
-            var query = new SuiMoveEventEventQuery()
-            {
-                MoveEvent = "0x2::devnet_nft::MintNFTEvent"
-            };
-            var result = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10);
-            result.IsSuccess.Should().BeTrue();
-
-
-            var result2 = await _jsonRpcApiClient.QueryEventsAsync(query, result.Result.NextCursor, 10);
-            result2.IsSuccess.Should().BeTrue();
         }
 
         [Fact]

@@ -92,7 +92,7 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<TransactionBlockBytes>("unsafe_pay", ArgumentBuilder.BuildArguments(signer, inputCoins, recipients, amounts, gas, gasBudget));
         }
 
-        public async Task<RpcResult<Page_for_Event_and_EventID>> QueryEventsAsync(ISuiEventQuery query, SuiEventId cursor, ulong limit, bool descendingOrder = false)
+        public async Task<RpcResult<Page_for_Event_and_EventID>> QueryEventsAsync(EventFilter query, EventId cursor, ulong? limit, bool descendingOrder = false)
         {
             return await SendRpcRequestAsync<Page_for_Event_and_EventID>("suix_queryEvents", ArgumentBuilder.BuildArguments(query, cursor, limit, descendingOrder));
         }
@@ -152,7 +152,7 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<Page_for_SuiObjectResponse_and_ObjectID>("suix_getOwnedObjects", ArgumentBuilder.BuildArguments(address, query, cursor, limit));
         }
 
-        public Task<RpcResult<SuiPage_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(TransactionBlockResponseQuery query, SuiEventId cursor, ulong? limit, bool? descendingOrder = false)
+        public Task<RpcResult<SuiPage_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(TransactionBlockResponseQuery query, EventId cursor, ulong? limit, bool? descendingOrder = false)
         {
             throw new NotImplementedException();
         }

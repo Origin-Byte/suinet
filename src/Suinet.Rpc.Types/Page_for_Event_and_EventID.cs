@@ -6,7 +6,7 @@ namespace Suinet.Rpc.Types
     {
         public List<SuiEvent> Data { get; set; }
 
-        public SuiEventId NextCursor { get; set; }
+        public EventId NextCursor { get; set; }
 
         public bool HasNextPage { get; set; }
     }
