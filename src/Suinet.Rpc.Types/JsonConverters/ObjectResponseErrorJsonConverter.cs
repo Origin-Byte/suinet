@@ -13,6 +13,11 @@ namespace Suinet.Rpc.Types.JsonConverters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            if (reader == null || reader.TokenType == JsonToken.Null)
+            {
+                return null;
+            }
+
             var jsonObject = JObject.Load(reader);
             ObjectResponseError error;
 
