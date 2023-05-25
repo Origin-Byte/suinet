@@ -1,4 +1,5 @@
 using FluentAssertions;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Suinet.Wallet.Tests
@@ -7,8 +8,6 @@ namespace Suinet.Wallet.Tests
     {
         // test mnemonic from sui sdk tests for reference
         // https://github.com/MystenLabs/sui/blob/main/sdk/typescript/test/unit/cryptography/ed25519-keypair.test.ts
-        private const string TEST_MNEMONIC_SUI =
-  "result crisp session latin must fruit genuine question prevent start coconut brave speak student dismiss";
 
         [Fact]
         public void TestGenerateMnemonic()
@@ -17,23 +16,28 @@ namespace Suinet.Wallet.Tests
             mnemo.Split(' ').Should().HaveCount(12);
         }
 
-        [Fact]
-        public void TestGetKeypairFromMnemonic2()
+        public static IEnumerable<object[]> GetMnemonicKeypairData => new List<object[]>
         {
-            var keyPair = Mnemonics.GetKeypairFromMnemonic("that august urban math slender industry area mountain worry day ski hold");
+            new object[] {
+                "film crazy soon outside stand loop subway crumble thrive popular green nuclear struggle pistol arm wife phrase warfare march wheat nephew ask sunny firm",
+                "0xa2d14fad60c56049ecf75246a481934691214ce413e6a8ae2fe6834c173a6133"
+            },
+            new object[] {
+                "require decline left thought grid priority false tiny gasp angle royal system attack beef setup reward aunt skill wasp tray vital bounce inflict level",
+                "0x1ada6e6f3f3e4055096f606c746690f1108fcc2ca479055cc434a3e1d3f758aa"
+            },
+            new object[] {
+                "organ crash swim stick traffic remember army arctic mesh slice swear summer police vast chaos cradle squirrel hood useless evidence pet hub soap lake",
+                "0xe69e896ca10f5a77732769803cc2b5707f0ab9d4407afb5e4b4464b89769af14"
+            },
+        };
 
-            keyPair.PrivateKeyBase64.Should().Be("/noDlhYrZghx2Iwlf2hyQzX+X8pCen8nRrWDGC82zNTb5qQlSBB/HwaUvcOiUNyaGvR9QiA3M0ozmhOZ6fmcuQ==");
-            keyPair.PublicKeyBase64.Should().Be("2+akJUgQfx8GlL3DolDcmhr0fUIgNzNKM5oTmen5nLk=");
-        }
-
-        [Fact]
-        public void TestGetKeypairFromMnemonic()
+        [Theory]
+        [MemberData(nameof(GetMnemonicKeypairData))]
+        public void TestGetKeypairFromMnemonic(string mnemonic, string expectedAddress)
         {
-            var keyPair = Mnemonics.GetKeypairFromMnemonic(TEST_MNEMONIC_SUI);
-
-            keyPair.PrivateKeyBase64.Should().Be("7jlISawJNpXqPJ22zuFAB4dKecEY/La4pWhP2kvcaV5oWy1vmHhN12MkmvIckvWIyhvoDECpjFW/fJG3TlrB4g==");
-            keyPair.PublicKeyBase64.Should().Be("aFstb5h4TddjJJryHJL1iMob6AxAqYxVv3yRt05aweI=");
-            keyPair.PublicKeyAsSuiAddress.Should().Be("0x1a4623343cd42be47d67314fce0ad042f3c82685");
+            var keyPair = Mnemonics.GetKeypairFromMnemonic(mnemonic);
+            keyPair.PublicKeyAsSuiAddress.Should().Be(expectedAddress);
         }
 
         [Fact]
