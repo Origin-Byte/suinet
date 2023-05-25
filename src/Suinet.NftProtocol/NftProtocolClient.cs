@@ -49,14 +49,13 @@ namespace Suinet.NftProtocol
 
         public async Task<RpcResult<ArtNft>> GetArtNftAsync(string objectId, params Type[] withDomains)
         {
-            throw new NotImplementedException();
-            //var nftResult = await _jsonRpcApiClient.GetObjectAsync<ArtNft>(objectId);
+            var nftResult = await _jsonRpcApiClient.GetObjectAsync<ArtNft>(objectId, new ArtNftParser());
 
             //if (nftResult == null || !nftResult.IsSuccess) return nftResult;
 
             //await LoadDomainsForArtNftAsync(nftResult.Result, withDomains);
 
-            //return nftResult;
+            return nftResult;
         }
 
 
@@ -125,7 +124,7 @@ namespace Suinet.NftProtocol
 
                     if (domainResult != null && domainResult.IsSuccess)
                     {
-                        nft.Attributes = domainResult.Result.Attributes;
+                        //nft.Attributes = domainResult.Result.Attributes;
                     }
                 }
             }

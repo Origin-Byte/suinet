@@ -46,8 +46,27 @@ namespace Suinet.Rpc.Types.JsonConverters
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            if (value is ArrayMoveStruct arrayMove)
+            {
+                serializer.Serialize(writer, arrayMove.Value);
+            }
+            else if (value is ObjectMoveStruct objectMove)
+            {
+                JObject jObject = new JObject
+        {
+            {"fields", JObject.FromObject(objectMove.Fields, serializer)},
+            {"type", JValue.FromObject(objectMove.Type)}
+        };
+                jObject.WriteTo(writer);
+            }
+            else if (value is AdditionalPropertiesMoveStruct additionalPropertiesMove)
+            {
+                serializer.Serialize(writer, additionalPropertiesMove.AdditionalProperties);
+            }
+            else
+            {
+                throw new JsonSerializationException($"Unsupported type: {value.GetType().FullName}");
+            }
         }
     }
-
 }

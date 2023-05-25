@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
+using Suinet.Rpc.Types.JsonConverters;
 using System;
 using System.Collections.Generic;
 
 namespace Suinet.Rpc.Types.MoveTypes
 {
-
+    [JsonConverter(typeof(MoveStructJsonConverter))]
     public abstract class MoveStruct
     {
         public virtual T ToObject<T>()
