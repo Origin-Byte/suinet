@@ -344,6 +344,22 @@ namespace Suinet.Rpc.Tests
             sequenceNumber.Should().BeGreaterThan(0);
         }
 
+        [Fact]
+        public async Task TestQueryTransactionBlocksAsync()
+        {
+            var query = new TransactionBlockResponseQuery()
+            {
+                Filter =  new ToAddressFilter()
+                            {
+                                ToAddress = _signerKeyPair.PublicKeyAsSuiAddress
+                            },
+                Options = TransactionBlockResponseOptions.ShowAll()
+            };
+            var objects = await _jsonRpcApiClient.QueryTransactionBlocksAsync(query, null, 10);
+            objects.IsSuccess.Should().BeTrue();
+            objects.Result.Data.Should().HaveCountGreaterThan(0);
+        }
+
         //[Fact]
         //public async Task TestTransferObject()
         //{

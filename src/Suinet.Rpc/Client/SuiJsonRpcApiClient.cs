@@ -152,9 +152,9 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<Page_for_SuiObjectResponse_and_ObjectID>("suix_getOwnedObjects", ArgumentBuilder.BuildArguments(address, query, cursor, limit));
         }
 
-        public Task<RpcResult<SuiPage_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(TransactionBlockResponseQuery query, EventId cursor, ulong? limit, bool? descendingOrder = false)
+        public async Task<RpcResult<Page_for_TransactionBlockResponse_and_TransactionDigest>> QueryTransactionBlocksAsync(TransactionBlockResponseQuery query, EventId cursor, ulong? limit, bool? descendingOrder = false)
         {
-            throw new NotImplementedException();
+            return await SendRpcRequestAsync<Page_for_TransactionBlockResponse_and_TransactionDigest>("suix_queryTransactionBlocks", ArgumentBuilder.BuildArguments(query, cursor, limit, descendingOrder));
         }
 
         public Task<RpcResult<string>> ResolveNameServiceAddressAsync(string name)
