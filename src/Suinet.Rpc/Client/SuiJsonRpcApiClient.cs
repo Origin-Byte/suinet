@@ -1,14 +1,11 @@
-﻿using Chaos.NaCl;
-using Suinet.Rpc.Api;
+﻿using Suinet.Rpc.Api;
 using Suinet.Rpc.Client;
 using Suinet.Rpc.Http;
 using Suinet.Rpc.JsonRpc;
 using Suinet.Rpc.Types;
 using Suinet.Rpc.Types.MoveTypes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -67,37 +64,37 @@ namespace Suinet.Rpc
 
         public async Task<RpcResult<TransactionBlockBytes>> TransferObjectAsync(string signer, string objectId, string gas, ulong gasBudget, string recipient)
         {
-            return await SendRpcRequestAsync<TransactionBlockBytes>("sui_transferObject", ArgumentBuilder.BuildArguments(signer, objectId, gas, gasBudget, recipient));
+            return await SendRpcRequestAsync<TransactionBlockBytes>("unsafe_transferObject", ArgumentBuilder.BuildArguments(signer, objectId, gas, gasBudget, recipient));
         }
 
         public async Task<RpcResult<TransactionBlockBytes>> TransferSuiAsync(string signer, string suiObjectId, ulong gasBudget, string recipient, ulong amount)
         {
-            return await SendRpcRequestAsync<TransactionBlockBytes>("sui_transferSui", ArgumentBuilder.BuildArguments(signer, suiObjectId, gasBudget, recipient, amount));
+            return await SendRpcRequestAsync<TransactionBlockBytes>("unsafe_transferSui", ArgumentBuilder.BuildArguments(signer, suiObjectId, gasBudget, recipient, amount));
         }
 
         public async Task<RpcResult<TransactionBlockBytes>> MergeCoinsAsync(string signer, string primaryCoinId, string coinToMergeId, string gas, ulong gasBudget)
         {
-            return await SendRpcRequestAsync<TransactionBlockBytes>("sui_mergeCoins", ArgumentBuilder.BuildArguments(signer, primaryCoinId, coinToMergeId, gas, gasBudget));
+            return await SendRpcRequestAsync<TransactionBlockBytes>("unsafe_mergeCoins", ArgumentBuilder.BuildArguments(signer, primaryCoinId, coinToMergeId, gas, gasBudget));
         }
 
         public async Task<RpcResult<TransactionBlockBytes>> SplitCoinAsync(string signer, string coinObjectId, IEnumerable<ulong> splitAmounts, string gas, ulong gasBudget)
         {
-            return await SendRpcRequestAsync<TransactionBlockBytes>("sui_splitCoin", ArgumentBuilder.BuildArguments(signer, coinObjectId, splitAmounts, gas, gasBudget));
+            return await SendRpcRequestAsync<TransactionBlockBytes>("unsafe_splitCoin", ArgumentBuilder.BuildArguments(signer, coinObjectId, splitAmounts, gas, gasBudget));
         }
 
         public async Task<RpcResult<TransactionBlockBytes>> SplitCoinEqualAsync(string signer, string coinObjectId, ulong splitCount, string gas, ulong gasBudget)
         {
-            return await SendRpcRequestAsync<TransactionBlockBytes>("sui_splitCoinEqual", ArgumentBuilder.BuildArguments(signer, coinObjectId, splitCount, gas, gasBudget));
+            return await SendRpcRequestAsync<TransactionBlockBytes>("unsafe_splitCoinEqual", ArgumentBuilder.BuildArguments(signer, coinObjectId, splitCount, gas, gasBudget));
         }
 
         public async Task<RpcResult<TransactionBlockBytes>> PayAsync(string signer, IEnumerable<string> inputCoins, IEnumerable<string> recipients, IEnumerable<ulong> amounts, string gas, ulong gasBudget)
         {
-            return await SendRpcRequestAsync<TransactionBlockBytes>("sui_pay", ArgumentBuilder.BuildArguments(signer, inputCoins, recipients, amounts, gas, gasBudget));
+            return await SendRpcRequestAsync<TransactionBlockBytes>("unsafe_pay", ArgumentBuilder.BuildArguments(signer, inputCoins, recipients, amounts, gas, gasBudget));
         }
 
-        public async Task<RpcResult<SuiPage_for_Event_and_EventID>> QueryEventsAsync(ISuiEventQuery query, SuiEventId cursor, ulong limit, bool descendingOrder = false)
+        public async Task<RpcResult<Page_for_Event_and_EventID>> QueryEventsAsync(ISuiEventQuery query, SuiEventId cursor, ulong limit, bool descendingOrder = false)
         {
-            return await SendRpcRequestAsync<SuiPage_for_Event_and_EventID>("suix_queryEvents", ArgumentBuilder.BuildArguments(query, cursor, limit, descendingOrder));
+            return await SendRpcRequestAsync<Page_for_Event_and_EventID>("suix_queryEvents", ArgumentBuilder.BuildArguments(query, cursor, limit, descendingOrder));
         }
 
         public async Task<RpcResult<Page_for_DynamicFieldInfo_and_ObjectID>> GetDynamicFieldsAsync(string objectId)
@@ -135,14 +132,14 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<Page_for_Checkpoint_and_BigInteger>("sui_getCheckpoints", ArgumentBuilder.BuildArguments(cursor, limit, isDescending));
         }
 
-        public Task<RpcResult<SuiEvent[]>> GetEventAsync(string txDigest)
+        public async Task<RpcResult<SuiEvent[]>> GetEventsAsync(string txDigest)
         {
-            throw new NotImplementedException();
+            return await SendRpcRequestAsync<SuiEvent[]>("sui_getEvents", ArgumentBuilder.BuildArguments(txDigest));
         }
 
-        public Task<RpcResult<ulong>> GetLatestCheckpointSequenceNumberAsync()
+        public async Task<RpcResult<BigInteger>> GetLatestCheckpointSequenceNumberAsync()
         {
-            throw new NotImplementedException();
+            return await SendRpcRequestAsync<BigInteger>("sui_getLatestCheckpointSequenceNumber");
         }
 
         public Task<RpcResult<SuiLoadedChildObjectsResponse>> GetLoadedChildObjectsAsync(string txDigest)
@@ -248,6 +245,11 @@ namespace Suinet.Rpc
         public async Task<RpcResult<Balance>> GetBalanceAsync(string ownerAddress, string coinType)
         {
             return await SendRpcRequestAsync<Balance>("suix_getBalance", ArgumentBuilder.BuildArguments(ownerAddress, coinType));
+        }
+
+        public Task<RpcResult<TransactionBlockBytes>> BatchTransactionAsync(string signer, IEnumerable<object> singleTransactionParams, string gas, ulong gasBudget)
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -40,10 +40,10 @@ namespace Suinet.Rpc.Types
     /// <summary>
     /// Return events with the given event type
     /// </summary>
-    public class SuiEventTypeEventQuery : ISuiEventQuery
-    {
-        public SuiEventType MoveEvent { get; set; }
-    }
+    //public class SuiEventTypeEventQuery : ISuiEventQuery
+    //{
+    //    public SuiEventType MoveEvent { get; set; }
+    //}
 
     /// <summary>
     /// Query by sender address

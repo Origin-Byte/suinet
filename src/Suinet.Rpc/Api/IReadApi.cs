@@ -64,14 +64,14 @@ namespace Suinet.Rpc.Api
         /// </summary>
         /// <param name="txDigest">The event query criteria.</param>
         /// <returns></returns>
-        Task<RpcResult<SuiEvent[]>> GetEventAsync(string txDigest);
+        Task<RpcResult<SuiEvent[]>> GetEventsAsync(string txDigest);
 
         /// <summary>
         /// Return the sequence number of the latest checkpoint that has been executed
         /// </summary>
         /// <param name="txDigest">The event query criteria.</param>
         /// <returns></returns>
-        Task<RpcResult<ulong>> GetLatestCheckpointSequenceNumberAsync();
+        Task<RpcResult<BigInteger>> GetLatestCheckpointSequenceNumberAsync();
 
         /// <summary>
         /// 

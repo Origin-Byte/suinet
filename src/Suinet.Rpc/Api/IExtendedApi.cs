@@ -13,7 +13,7 @@ namespace Suinet.Rpc.Api
         /// <param name="limit">maximum number of items per page</param>
         /// <param name="query result ordering"></param>
         /// <returns></returns>
-        Task<RpcResult<SuiPage_for_Event_and_EventID>> QueryEventsAsync(ISuiEventQuery query, SuiEventId cursor, ulong limit, bool descendingOrder = false);
+        Task<RpcResult<Page_for_Event_and_EventID>> QueryEventsAsync(ISuiEventQuery query, SuiEventId cursor, ulong limit, bool descendingOrder = false);
 
         /// <summary>
         /// Return the list of dynamic field objects owned by an object.

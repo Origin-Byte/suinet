@@ -300,11 +300,11 @@ namespace Suinet.Rpc.Tests
         }
 
         [Fact]
-        public async Task TestGetAllEvents()
+        public async Task TestGetEvents()
         {
-            var query = new SuiAllEventQuery();
-            //var objects = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10);
-            //objects.IsSuccess.Should().BeTrue();
+            var result = await _jsonRpcApiClient.GetEventsAsync("GMwsnGNNce8Qdrb6LcgnMZvSPYCv6iL7JmAA32iykc2y");
+            result.IsSuccess.Should().BeTrue();
+            result.Result.Should().NotBeNull();
         }
 
         [Fact]
@@ -362,7 +362,7 @@ namespace Suinet.Rpc.Tests
         }
 
         [Fact]
-        public async Task TextSuiGetCheckpoints()
+        public async Task TestSuiGetCheckpoints()
         {
             var result = await _jsonRpcApiClient.SuiGetCheckpointsAsync(null, null, false);
             result.IsSuccess.Should().BeTrue();
@@ -379,6 +379,14 @@ namespace Suinet.Rpc.Tests
             result.Result.Digest.Should().NotBeNullOrEmpty();
         }
 
+        [Fact]
+        public async Task TestGetLatestCheckpointSequenceNumber()
+        {
+            var result = await _jsonRpcApiClient.GetLatestCheckpointSequenceNumberAsync();
+            result.IsSuccess.Should().BeTrue();
+            var sequenceNumber = (ulong)result.Result;
+            sequenceNumber.Should().BeGreaterThan(0);
+        }
 
         [Fact]
         public async Task TestTransferObject()
