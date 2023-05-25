@@ -48,7 +48,7 @@ namespace Suinet.Rpc.Api
         /// </summary>
         /// <param name="id">Checkpoint identifier, can use either checkpoint digest, or checkpoint sequence number as input.</param>
         /// <returns></returns>
-        Task<RpcResult<SuiCheckpoint>> GetCheckpointAsync(string id);
+        Task<RpcResult<Checkpoint>> GetCheckpointAsync(string id);
 
         /// <summary>
         /// Return paginated list of checkpoints
@@ -57,7 +57,7 @@ namespace Suinet.Rpc.Api
         /// <param name="limit">Maximum item returned per page, default to [QUERY_MAX_RESULT_LIMIT_CHECKPOINTS] if not specified.</param>
         /// <param name="isDescending">query result ordering, default to false (ascending order), oldest record first.</param>
         /// <returns>CheckpointPage</returns>
-        Task<RpcResult<SuiPage_for_Checkpoint_and_BigInt_for_uint64>> SuiGetCheckpointsAsync(string cursor, ulong limit, bool isDescending);
+        Task<RpcResult<Page_for_Checkpoint_and_BigInteger>> SuiGetCheckpointsAsync(string cursor, ulong? limit, bool isDescending);
 
         /// <summary>
         /// Return transaction events.

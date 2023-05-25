@@ -125,14 +125,14 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<SuiObjectResponse>("sui_getObject", ArgumentBuilder.BuildArguments(objectId, options));
         }
 
-        public Task<RpcResult<SuiCheckpoint>> GetCheckpointAsync(string id)
+        public async Task<RpcResult<Checkpoint>> GetCheckpointAsync(string id)
         {
-            throw new NotImplementedException();
+            return await SendRpcRequestAsync<Checkpoint>("sui_getCheckpoint", ArgumentBuilder.BuildArguments(id));
         }
 
-        public Task<RpcResult<SuiPage_for_Checkpoint_and_BigInt_for_uint64>> SuiGetCheckpointsAsync(string cursor, ulong limit, bool isDescending)
+        public async Task<RpcResult<Page_for_Checkpoint_and_BigInteger>> SuiGetCheckpointsAsync(string cursor, ulong? limit, bool isDescending)
         {
-            throw new NotImplementedException();
+            return await SendRpcRequestAsync<Page_for_Checkpoint_and_BigInteger>("sui_getCheckpoints", ArgumentBuilder.BuildArguments(cursor, limit, isDescending));
         }
 
         public Task<RpcResult<SuiEvent[]>> GetEventAsync(string txDigest)
