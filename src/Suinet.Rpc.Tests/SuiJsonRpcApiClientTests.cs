@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Org.BouncyCastle.Math;
 using Serilog;
 using Serilog.Extensions.Logging;
 using Suinet.Rpc.Client;
@@ -170,32 +169,32 @@ namespace Suinet.Rpc.Tests
             objectResult.IsSuccess.Should().BeTrue();
         }
 
-        [Fact]
-        public async Task TestGetNftDomainsAsync()
-        {
-            var objectId = "0x16f89ea5b1b7acd6056fc398bd2e94971443b9ff";
-            //var objectResult = await _jsonRpcApiClient.GetObjectAsync(objectId);
+        //[Fact]
+        //public async Task TestGetNftDomainsAsync()
+        //{
+        //    var objectId = "0x16f89ea5b1b7acd6056fc398bd2e94971443b9ff";
+        //    //var objectResult = await _jsonRpcApiClient.GetObjectAsync(objectId);
 
-            //var bagResult = await _jsonRpcApiClient.GetObjectAsync<Bag>(objectId);
+        //    //var bagResult = await _jsonRpcApiClient.GetObjectAsync<Bag>(objectId);
 
-            //var bagObjectId = "0x65980b5e1e4c703fae7b8f60affbabf40b09f141";
-            //var objectsOwnedByBagResult = await _jsonRpcApiClient.GetObjectsOwnedByObjectAsync(bagObjectId);
+        //    //var bagObjectId = "0x65980b5e1e4c703fae7b8f60affbabf40b09f141";
+        //    //var objectsOwnedByBagResult = await _jsonRpcApiClient.GetObjectsOwnedByObjectAsync(bagObjectId);
 
-            //var domainObject = await _jsonRpcApiClient.GetObjectAsync<DisplayDomain>("0xfe2ff2ac8bb0d1876e0a6ed8abe6aa4dd3efb3f0");
+        //    //var domainObject = await _jsonRpcApiClient.GetObjectAsync<DisplayDomain>("0xfe2ff2ac8bb0d1876e0a6ed8abe6aa4dd3efb3f0");
 
-            //var domainObj2 = await _jsonRpcApiClient.GetObjectsOwnedByObjectAsync< DisplayDomain>(bagObjectId);
+        //    //var domainObj2 = await _jsonRpcApiClient.GetObjectsOwnedByObjectAsync< DisplayDomain>(bagObjectId);
 
-            //var attributesDomainObj = await _jsonRpcApiClient.GetObjectsOwnedByObjectAsync<AttributesDomain>(bagObjectId);
+        //    //var attributesDomainObj = await _jsonRpcApiClient.GetObjectsOwnedByObjectAsync<AttributesDomain>(bagObjectId);
 
-            //var attr = attributesDomainObj.Result.First().Attributes;
+        //    //var attr = attributesDomainObj.Result.First().Attributes;
 
-            //var urlDomainObj = await _jsonRpcApiClient.GetObjectsOwnedByObjectAsync<UrlDomain>(bagObjectId);
+        //    //var urlDomainObj = await _jsonRpcApiClient.GetObjectsOwnedByObjectAsync<UrlDomain>(bagObjectId);
 
-            //var domains = await _jsonRpcApiClient.GetObjectsOwnedByObjectAsync<DomainBase>(bagObjectId);
+        //    //var domains = await _jsonRpcApiClient.GetObjectsOwnedByObjectAsync<DomainBase>(bagObjectId);
 
-            //objectResult.IsSuccess.Should().BeTrue();
-            //objectsOwnedByBagResult.IsSuccess.Should().BeTrue();
-        }
+        //    //objectResult.IsSuccess.Should().BeTrue();
+        //    //objectsOwnedByBagResult.IsSuccess.Should().BeTrue();
+        //}
         
 
         [Fact]
@@ -345,30 +344,30 @@ namespace Suinet.Rpc.Tests
             sequenceNumber.Should().BeGreaterThan(0);
         }
 
-        [Fact]
-        public async Task TestTransferObject()
-        {
-            var signer = _signerKeyPair.PublicKeyAsSuiAddress;            
-            //var gasObjectId = (await SuiHelper.GetCoinObjectIdsAboveBalancesOwnedByAddressAsync(_jsonRpcApiClient, signer, 1, 2000)).Single();
-            //var objectId = "0x421636c6413c13a0662bf4a67da8bb5872921255";
-            //var recipient = "0x145fa4fb60ac3d87919d1db491dd15f56df54d0d";
+        //[Fact]
+        //public async Task TestTransferObject()
+        //{
+        //    var signer = _signerKeyPair.PublicKeyAsSuiAddress;            
+        //    //var gasObjectId = (await SuiHelper.GetCoinObjectIdsAboveBalancesOwnedByAddressAsync(_jsonRpcApiClient, signer, 1, 2000)).Single();
+        //    //var objectId = "0x421636c6413c13a0662bf4a67da8bb5872921255";
+        //    //var recipient = "0x145fa4fb60ac3d87919d1db491dd15f56df54d0d";
 
-            //var transferObjectResult = await _jsonRpcApiClient.TransferObjectAsync(signer, objectId, gasObjectId, 2000, recipient);
+        //    //var transferObjectResult = await _jsonRpcApiClient.TransferObjectAsync(signer, objectId, gasObjectId, 2000, recipient);
 
 
-            //var txBytes = transferObjectResult.Result.TxBytes;
-            //var signature = _signerKeyPair.Sign(txBytes);
+        //    //var txBytes = transferObjectResult.Result.TxBytes;
+        //    //var signature = _signerKeyPair.Sign(txBytes);
 
-            //var txResponse = await _jsonRpcApiClient.ExecuteTransactionAsync(txBytes, SuiSignatureScheme.ED25519, signature, _signerKeyPair2.PublicKeyBase64, SuiExecuteTransactionRequestType.WaitForEffectsCert);
+        //    //var txResponse = await _jsonRpcApiClient.ExecuteTransactionAsync(txBytes, SuiSignatureScheme.ED25519, signature, _signerKeyPair2.PublicKeyBase64, SuiExecuteTransactionRequestType.WaitForEffectsCert);
 
-            //txResponse.Should().NotBeNull();
-            //txResponse.IsSuccess.Should().BeTrue();
-            //txResponse.ErrorMessage.Should().BeNullOrEmpty();
-            //txResponse.Result.ExecuteTransactionRequestType.Should().Be(SuiExecuteTransactionRequestType.WaitForEffectsCert);
+        //    //txResponse.Should().NotBeNull();
+        //    //txResponse.IsSuccess.Should().BeTrue();
+        //    //txResponse.ErrorMessage.Should().BeNullOrEmpty();
+        //    //txResponse.Result.ExecuteTransactionRequestType.Should().Be(SuiExecuteTransactionRequestType.WaitForEffectsCert);
 
-            //var effects = txResponse.Result.Effects;
-            //effects.Should().NotBeNull();
-            //txResponse.Result!.Certificate.Should().NotBeNull();
-        }
+        //    //var effects = txResponse.Result.Effects;
+        //    //effects.Should().NotBeNull();
+        //    //txResponse.Result!.Certificate.Should().NotBeNull();
+        //}
     }
 }

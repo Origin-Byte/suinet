@@ -6,12 +6,13 @@ using Suinet.NftProtocol.Nft;
 using System.Collections.Generic;
 using Suinet.NftProtocol.Domains;
 using System;
+using Suinet.NftProtocol.Examples;
 
 namespace Suinet.NftProtocol
 {
     public interface INftProtocolClient
     {
-        Task<RpcResult<TransactionBlockResponse>> MintNftAsync(MintNft txParams, string gasObjectId = null);
+        Task<RpcResult<TransactionBlockResponse>> MintNftAsync(MintSuitradersNft txParams, string gasObjectId = null);
 
         Task<RpcResult<TransactionBlockResponse>> EnableSalesAsync(EnableSales txParams, string gasObjectId = null);
 

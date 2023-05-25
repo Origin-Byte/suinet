@@ -1,10 +1,11 @@
 ﻿using Suinet.NftProtocol.Domains;
+using Suinet.NftProtocol.Examples;
 using Suinet.NftProtocol.Nft;
 using Suinet.NftProtocol.TransactionBuilders;
 using Suinet.Rpc;
 using Suinet.Rpc.Client;
-using Suinet.Rpc.Signer;
 using Suinet.Rpc.Types;
+using Suinet.Wallet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,15 @@ namespace Suinet.NftProtocol
     public class NftProtocolClient : INftProtocolClient
     {
         private readonly IJsonRpcApiClient _jsonRpcApiClient;
-        private readonly ISigner _signer;
+        private readonly IKeyPair _keypair;
 
-        public NftProtocolClient(IJsonRpcApiClient jsonRpcApiClient, ISigner signer)
+        public NftProtocolClient(IJsonRpcApiClient jsonRpcApiClient, IKeyPair keypair)
         {
             _jsonRpcApiClient = jsonRpcApiClient;
-            _signer = signer;
+            _keypair = keypair;
         }
 
-        public async Task<RpcResult<TransactionBlockResponse>> MintNftAsync(MintNft txParams, string gasObjectId)
+        public async Task<RpcResult<TransactionBlockResponse>> MintNftAsync(MintSuitradersNft txParams, string gasObjectId)
         {
             return await ExecuteTxAsync(txParams, gasObjectId);
         }
@@ -35,10 +36,15 @@ namespace Suinet.NftProtocol
 
         private async Task<RpcResult<TransactionBlockResponse>> ExecuteTxAsync(IMoveCallTransactionBuilder txBuilder, string gasObjectId = null)
         {
-            //var gas = gasObjectId ?? (await SuiHelper.GetCoinObjectIdsAboveBalancesOwnedByAddressAsync(_jsonRpcApiClient, txBuilder.Signer))[0];
-            throw new NotImplementedException();
+            var moveCallResult = await _jsonRpcApiClient.MoveCallAsync(txBuilder.BuildMoveCallTransaction(gasObjectId));
 
-            //return await _signer.SignAndExecuteMoveCallAsync(txBuilder.BuildMoveCallTransaction(gas));
+            var txBytes = moveCallResult.Result.TxBytes;
+            var rawSigner = new RawSigner(_keypair);
+            var signature = rawSigner.SignData(Intent.GetMessageWithIntent(txBytes));
+
+            var txResponse = await _jsonRpcApiClient.ExecuteTransactionBlockAsync(txBytes, new[] { signature.Value }, TransactionBlockResponseOptions.ShowAll(), ExecuteTransactionRequestType.WaitForLocalExecution);
+
+            return txResponse;
         }
 
         public async Task<RpcResult<ArtNft>> GetArtNftAsync(string objectId, params Type[] withDomains)
