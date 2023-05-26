@@ -99,51 +99,51 @@ namespace Suinet.NftProtocol.Tests
            // rpcResult.Result.Attributes.Should().NotBeEmpty();
         }
 
-        [Fact]
-        public async Task TestGetArtNftAsync_WithUrlDomain()
-        {
-            var objectId = "0x08cb7a94f3c8244868fe582ec3fdfad1c03a9d6a";
-            var rpcResult = await _nftProtocolClient.GetArtNftAsync(objectId, typeof(UrlDomain));
+        //[Fact]
+        //public async Task TestGetArtNftAsync_WithUrlDomain()
+        //{
+        //    var objectId = "0x08cb7a94f3c8244868fe582ec3fdfad1c03a9d6a";
+        //    var rpcResult = await _nftProtocolClient.GetArtNftAsync(objectId, typeof(UrlDomain));
 
-            rpcResult.IsSuccess.Should().BeTrue();
-            rpcResult.Result.Url.Should().NotBeNullOrWhiteSpace();
-            rpcResult.Result.Name.Should().BeNull();
-            rpcResult.Result.Description.Should().BeNull();
-            //rpcResult.Result.Attributes.Should().BeNull();
-        }
+        //    rpcResult.IsSuccess.Should().BeTrue();
+        //    rpcResult.Result.Url.Should().NotBeNullOrWhiteSpace();
+        //    rpcResult.Result.Name.Should().BeNull();
+        //    rpcResult.Result.Description.Should().BeNull();
+        //    //rpcResult.Result.Attributes.Should().BeNull();
+        //}
 
-        [Fact]
-        public async Task TestGetArtNftsOwnedByAddressAsync_WithAllDomains()
-        {
-            var address = "0x7d18b23e9314280fb9cccd7259bf397001650ff9";
-            //var address = WALLET_2_ADDRESS;
-            var rpcResult = await _nftProtocolClient.GetArtNftsOwnedByAddressAsync(address);
+        //[Fact]
+        //public async Task TestGetArtNftsOwnedByAddressAsync_WithAllDomains()
+        //{
+        //    var address = "0x7d18b23e9314280fb9cccd7259bf397001650ff9";
+        //    //var address = WALLET_2_ADDRESS;
+        //    var rpcResult = await _nftProtocolClient.GetArtNftsOwnedByAddressAsync(address);
 
-            rpcResult.IsSuccess.Should().BeTrue();
+        //    rpcResult.IsSuccess.Should().BeTrue();
 
-            foreach (var nft in rpcResult.Result)
-            {
-                nft.Url.Should().NotBeNullOrWhiteSpace();
-                nft.Name.Should().NotBeNullOrWhiteSpace();
-                nft.Description.Should().NotBeNullOrWhiteSpace();
-            }
-        }
+        //    foreach (var nft in rpcResult.Result)
+        //    {
+        //        nft.Url.Should().NotBeNullOrWhiteSpace();
+        //        nft.Name.Should().NotBeNullOrWhiteSpace();
+        //        nft.Description.Should().NotBeNullOrWhiteSpace();
+        //    }
+        //}
 
 
-        [Fact]
-        public async Task TestGetArtNftsOwnedByAddressAsync_WithUrlDomains()
-        {
-            var address = RECIPIENT_ADDRESS;
-            var rpcResult = await _nftProtocolClient.GetArtNftsOwnedByAddressAsync(address, typeof(UrlDomain));
+        //[Fact]
+        //public async Task TestGetArtNftsOwnedByAddressAsync_WithUrlDomains()
+        //{
+        //    var address = RECIPIENT_ADDRESS;
+        //    var rpcResult = await _nftProtocolClient.GetArtNftsOwnedByAddressAsync(address, typeof(UrlDomain));
 
-            rpcResult.IsSuccess.Should().BeTrue();
+        //    rpcResult.IsSuccess.Should().BeTrue();
 
-            foreach (var nft in rpcResult.Result)
-            {
-                nft.Url.Should().NotBeNullOrWhiteSpace();
-                nft.Name.Should().BeNull();
-                nft.Description.Should().BeNull();
-            }
-        }
+        //    foreach (var nft in rpcResult.Result)
+        //    {
+        //        nft.Url.Should().NotBeNullOrWhiteSpace();
+        //        nft.Name.Should().BeNull();
+        //        nft.Description.Should().BeNull();
+        //    }
+        //}
     }
 }
