@@ -58,7 +58,7 @@ namespace Suinet.NftProtocol.Tests
         }
 
         [Fact]
-        public async Task MintNfts()
+        public async Task MintAndAirdropNfts()
         {
             var recipient = RECIPIENT_ADDRESS;
 
@@ -87,6 +87,35 @@ namespace Suinet.NftProtocol.Tests
         }
 
         [Fact]
+        public async Task MintAndAirdropNftsToNewKiosk()
+        {
+            var recipient = RECIPIENT_ADDRESS;
+
+            for (int i = 1; i <= 1; i++)
+            {
+                var txParams = new MintSuitradersNft()
+                {
+                    Attributes = new Dictionary<string, object>()
+                {
+                    { "nft_type", "face" },
+                },
+                    Description = "You can use this as a face of your character in the game!",
+                    Recipient = recipient,
+                    ModuleName = MODULE_NAME,
+                    Function = "airdrop_nft_into_new_kiosk",
+                    Name = $"Face {i}",
+                    PackageObjectId = PACKAGE_OBJECT_ID,
+                    Signer = _signerKeyPair.PublicKeyAsSuiAddress,
+                    Url = $"https://suiunitysdksample.blob.core.windows.net/nfts/face{i}.png"
+                };
+
+                var rpcResult = await _nftProtocolClient.MintNftAsync(txParams);
+                rpcResult.Should().NotBeNull();
+                rpcResult.IsSuccess.Should().BeTrue();
+            }
+        }
+
+        [Fact]
         public async Task TestGetArtNftAsync()
         {
             var objectId = "0x2dfdb7e05c578547d1c3d97ad77353a6c6327d2f08670c3a57dce7241571b8ca";
@@ -97,6 +126,18 @@ namespace Suinet.NftProtocol.Tests
             rpcResult.Result.Name.Should().NotBeEmpty();
             rpcResult.Result.Description.Should().NotBeEmpty();
            // rpcResult.Result.Attributes.Should().NotBeEmpty();
+        }
+
+        [Fact]
+        public async Task TestGetArtNftFromOriginByteKioskAsync()
+        {
+            var objectId = "0x2dfdb7e05c578547d1c3d97ad77353a6c6327d2f08670c3a57dce7241571b8ca";
+            var rpcResult = await _nftProtocolClient.GetArtNftAsync(objectId);
+
+            rpcResult.IsSuccess.Should().BeTrue();
+            rpcResult.Result.Url.Should().NotBeEmpty();
+            rpcResult.Result.Name.Should().NotBeEmpty();
+            rpcResult.Result.Description.Should().NotBeEmpty();
         }
 
         //[Fact]

@@ -2,15 +2,18 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Extensions.Logging;
+using Suinet.NftProtocol.Nft;
 using Suinet.Rpc.Client;
 using Suinet.Rpc.Http;
 using Suinet.Rpc.Types;
 using Suinet.Rpc.Types.Coins;
+using Suinet.Rpc.Types.MoveTypes;
 using Suinet.Rpc.Types.Nfts;
 using Suinet.Rpc.Types.ObjectDataParsers;
 using Suinet.Wallet;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -169,6 +172,58 @@ namespace Suinet.Rpc.Tests
             objectResult.IsSuccess.Should().BeTrue();
         }
 
+        [Fact]
+        public async Task TestGetKioskAsync()
+        {
+            var objectId = "0x04535f3236dfcfd757347e294b882e331be432a19527635f8d52bb1117cda39d";
+            var objectResult = await _jsonRpcApiClient.GetObjectAsync(objectId, new ObjectDataOptions()
+            {
+                ShowContent = true
+            });
+
+            objectResult.IsSuccess.Should().BeTrue();
+            objectResult.Result.Data.Content.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task TestGetTypedKioskAsync()
+        {
+            var objectId = "0x04535f3236dfcfd757347e294b882e331be432a19527635f8d52bb1117cda39d";
+            var objectResult = await _jsonRpcApiClient.GetObjectAsync<Kiosk>(objectId, new KioskParser(), new ObjectDataOptions()
+            {
+                ShowContent = true,
+                ShowType = true
+            });
+
+            objectResult.IsSuccess.Should().BeTrue();
+            objectResult.Result.Id.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task TestGetArtNftsInKioskAsync()
+        {
+            var objectId = "0x04535f3236dfcfd757347e294b882e331be432a19527635f8d52bb1117cda39d";
+            var kioskObjectResult = await _jsonRpcApiClient.GetObjectAsync<Kiosk>(objectId, new KioskParser(), new ObjectDataOptions()
+            {
+                ShowContent = true,
+                ShowType = true
+            });
+
+            kioskObjectResult.IsSuccess.Should().BeTrue();
+            kioskObjectResult.Result.Id.Should().NotBeNull();
+
+            var nftsResult = await _jsonRpcApiClient.GetDynamicFieldsAsync(objectId, null, null);
+            nftsResult.IsSuccess.Should().BeTrue();
+
+            var artNftFields = nftsResult.Result.Data.Where(d => d.Name.Type == SuiConstants.KIOSK_ITEM_TYPE).ToList();
+
+            foreach(var artNftField in artNftFields)
+            {
+                var artNftResult = await _jsonRpcApiClient.GetObjectAsync<ArtNft>(artNftField.ObjectId, new ArtNftParser());
+                artNftResult.IsSuccess.Should().BeTrue();
+            }
+        }
+
         //[Fact]
         //public async Task TestGetNftDomainsAsync()
         //{
@@ -195,7 +250,7 @@ namespace Suinet.Rpc.Tests
         //    //objectResult.IsSuccess.Should().BeTrue();
         //    //objectsOwnedByBagResult.IsSuccess.Should().BeTrue();
         //}
-        
+
 
         [Fact]
         public async Task TestGetAndParseSuiFrenAsync()
