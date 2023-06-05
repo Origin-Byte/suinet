@@ -401,6 +401,35 @@ namespace Suinet.Rpc.Tests
         }
 
         [Fact]
+        public async Task TestQueryEventsByPackage()
+        {
+            var query = new PackageEventFilter()
+            {
+                Package = "0x8da36ef392a7d2b1e7dac2a987767eea5a415d843d3d34cb66bec6434001f931"
+            };
+            // TODO use rpc node that supports it
+            var objects = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10);
+            objects.IsSuccess.Should().BeTrue();
+        }
+
+
+        [Fact]
+        public async Task TestQueryEventsByMoveModule()
+        {
+            var query = new MoveModuleEventFilter()
+            {
+                MoveModule = new MoveModuleEventFilter.MoveModuleType()
+                {
+                    Package = "0x8da36ef392a7d2b1e7dac2a987767eea5a415d843d3d34cb66bec6434001f931",
+                    Module = "clob"
+                }
+            };
+            var objects = await _jsonRpcApiClient.QueryEventsAsync(query, null, 10);
+            objects.IsSuccess.Should().BeTrue();
+            objects.Result.Data.Should().HaveCountGreaterThan(0);
+        }
+
+        [Fact]
         public async Task TestSuiGetCheckpoints()
         {
             var result = await _jsonRpcApiClient.SuiGetCheckpointsAsync(null, null, false);
