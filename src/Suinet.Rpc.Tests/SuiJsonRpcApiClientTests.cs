@@ -354,6 +354,20 @@ namespace Suinet.Rpc.Tests
         }
 
         [Fact]
+        public async Task TestGetAllBalancesAsync()
+        {
+            var balances = await _jsonRpcApiClient.GetAllBalancesAsync(_signerKeyPair.PublicKeyAsSuiAddress);
+            balances.Should().NotBeNull();
+            balances.Result.Should().NotBeNull();
+            balances.IsSuccess.Should().BeTrue();
+            foreach(var balance in balances.Result)
+            {
+                var ulongBalance = (ulong)balance.TotalBalance;
+                ulongBalance.Should().BeGreaterThan(0);
+            }
+        }
+
+        [Fact]
         public async Task TestGetEvents()
         {
             var result = await _jsonRpcApiClient.GetEventsAsync("GMwsnGNNce8Qdrb6LcgnMZvSPYCv6iL7JmAA32iykc2y");

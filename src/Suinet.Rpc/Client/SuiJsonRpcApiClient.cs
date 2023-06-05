@@ -232,9 +232,9 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<Page_for_DynamicFieldInfo_and_ObjectID>("suix_getDynamicFields", ArgumentBuilder.BuildArguments(parentObjectId, cursor, limit));
         }
 
-        public Task<RpcResult<Balance[]>> GetAllBalancesAsync(string ownerAddress)
+        public async Task<RpcResult<Balance[]>> GetAllBalancesAsync(string ownerAddress)
         {
-            throw new NotImplementedException();
+            return await SendRpcRequestAsync<Balance[]>("suix_getAllBalances", ArgumentBuilder.BuildArguments(ownerAddress));
         }
 
         public Task<RpcResult<SuiPage_for_Coin_and_ObjectID>> GetAllCoinsAsync(string ownerAddress, string cursor, ulong limit)
