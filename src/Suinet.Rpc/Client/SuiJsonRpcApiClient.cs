@@ -37,11 +37,6 @@ namespace Suinet.Rpc
             return await _rpcClient.SendAsync<T>(request);
         }
 
-        public async Task<RpcResult<SuiObjectResponse>> GetDynamicFieldObjectAsync(string parentObjectId, DynamicFieldName fieldName)
-        {
-            return await SendRpcRequestAsync<SuiObjectResponse>("suix_getDynamicFieldObject", ArgumentBuilder.BuildArguments(parentObjectId, fieldName));
-        }
-
         public async Task<RpcResult<BigInteger>> GetTotalTransactionBlocksAsync()
         {
             return await SendRpcRequestAsync<BigInteger>("sui_getTotalTransactionBlocks");
@@ -230,6 +225,11 @@ namespace Suinet.Rpc
         public async Task<RpcResult<Page_for_DynamicFieldInfo_and_ObjectID>> GetDynamicFieldsAsync(string parentObjectId, string cursor, ulong? limit)
         {
             return await SendRpcRequestAsync<Page_for_DynamicFieldInfo_and_ObjectID>("suix_getDynamicFields", ArgumentBuilder.BuildArguments(parentObjectId, cursor, limit));
+        }
+
+        public async Task<RpcResult<SuiObjectResponse>> GetDynamicFieldObjectAsync(string parentObjectId, DynamicFieldName fieldName)
+        {
+            return await SendRpcRequestAsync<SuiObjectResponse>("suix_getDynamicFieldObject", ArgumentBuilder.BuildArguments(parentObjectId, fieldName));
         }
 
         public async Task<RpcResult<Balance[]>> GetAllBalancesAsync(string ownerAddress)
