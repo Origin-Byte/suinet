@@ -237,9 +237,9 @@ namespace Suinet.Rpc
             return await SendRpcRequestAsync<Balance[]>("suix_getAllBalances", ArgumentBuilder.BuildArguments(ownerAddress));
         }
 
-        public Task<RpcResult<SuiPage_for_Coin_and_ObjectID>> GetAllCoinsAsync(string ownerAddress, string cursor, ulong limit)
+        public async Task<RpcResult<Page_for_Coin_and_ObjectID>> GetAllCoinsAsync(string ownerAddress, string cursor, ulong limit)
         {
-            throw new NotImplementedException();
+            return await SendRpcRequestAsync<Page_for_Coin_and_ObjectID>("suix_getAllCoins", ArgumentBuilder.BuildArguments(ownerAddress, cursor, limit));
         }
 
         public async Task<RpcResult<Balance>> GetBalanceAsync(string ownerAddress, string coinType)

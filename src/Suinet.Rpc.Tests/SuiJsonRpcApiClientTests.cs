@@ -368,6 +368,20 @@ namespace Suinet.Rpc.Tests
         }
 
         [Fact]
+        public async Task TestGetAllCoinsAsync()
+        {
+            var coins = await _jsonRpcApiClient.GetAllCoinsAsync(_signerKeyPair.PublicKeyAsSuiAddress);
+            coins.Should().NotBeNull();
+            coins.Result.Should().NotBeNull();
+            coins.IsSuccess.Should().BeTrue();
+            foreach (var coin in coins.Result.Data)
+            {
+                var ulongBalance = (ulong)coin.Balance;
+                ulongBalance.Should().BeGreaterThan(0);
+            }
+        }
+
+        [Fact]
         public async Task TestGetEvents()
         {
             var result = await _jsonRpcApiClient.GetEventsAsync("GMwsnGNNce8Qdrb6LcgnMZvSPYCv6iL7JmAA32iykc2y");
