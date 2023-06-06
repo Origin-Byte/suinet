@@ -384,9 +384,11 @@ namespace Suinet.Rpc.Tests
         [Fact]
         public async Task TestGetEvents()
         {
-            var result = await _jsonRpcApiClient.GetEventsAsync("GMwsnGNNce8Qdrb6LcgnMZvSPYCv6iL7JmAA32iykc2y");
+            // capy_labs module
+            var result = await _jsonRpcApiClient.GetEventsAsync("5YmJhpoEZYvAoxLJeWGUumq4g9MdDvwha4m1zQJ51Nok");
             result.IsSuccess.Should().BeTrue();
             result.Result.Should().NotBeNull();
+            result.Result.Length.Should().BeGreaterThan(0);
         }
 
         [Fact]
