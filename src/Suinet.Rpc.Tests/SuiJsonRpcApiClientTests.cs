@@ -170,6 +170,7 @@ namespace Suinet.Rpc.Tests
             var objectResult = await _jsonRpcApiClient.GetObjectAsync(objectId, new ObjectDataOptions());
 
             objectResult.IsSuccess.Should().BeTrue();
+            objectResult.Result.Data.Should().NotBeNull();
         }
 
         [Fact]
