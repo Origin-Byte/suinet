@@ -19,9 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Suinet.NftProtocol", "src\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Suinet.NftProtocol.Tests", "src\Suinet.NftProtocol.Tests\Suinet.NftProtocol.Tests.csproj", "{85F1B76F-C602-4CA3-ABEF-850C6D328169}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Suinet.Faucet.Tests", "src\Suinet.Faucet.Tests\Suinet.Faucet.Tests.csproj", "{2E96683C-E4FE-40A7-862F-352401EE79EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Suinet.Faucet.Tests", "src\Suinet.Faucet.Tests\Suinet.Faucet.Tests.csproj", "{2E96683C-E4FE-40A7-862F-352401EE79EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Suinet.Faucet", "src\Suinet.Faucet\Suinet.Faucet.csproj", "{E5508D99-08D0-4169-8EFB-2A9D2A992CAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Suinet.Faucet", "src\Suinet.Faucet\Suinet.Faucet.csproj", "{E5508D99-08D0-4169-8EFB-2A9D2A992CAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Suinet.SuiPlay", "Suinet.SuiPlay\Suinet.SuiPlay.csproj", "{344BE437-4400-4D84-9EB4-B912EDB84736}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{E5508D99-08D0-4169-8EFB-2A9D2A992CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5508D99-08D0-4169-8EFB-2A9D2A992CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5508D99-08D0-4169-8EFB-2A9D2A992CAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{344BE437-4400-4D84-9EB4-B912EDB84736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{344BE437-4400-4D84-9EB4-B912EDB84736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{344BE437-4400-4D84-9EB4-B912EDB84736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{344BE437-4400-4D84-9EB4-B912EDB84736}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
