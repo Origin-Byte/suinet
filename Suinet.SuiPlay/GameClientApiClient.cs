@@ -14,6 +14,10 @@ namespace Suinet.SuiPlay
         public GameClientApiClient(IHttpService httpService)
         {
             _httpService = httpService;
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+            };
         }
 
         public async Task<SuiPlayResult<Player>> GetPlayerProfileAsync(string gameId)
